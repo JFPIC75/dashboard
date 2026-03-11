@@ -7,327 +7,232 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface2: #1c2330;
-  --surface3: #21262d;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #8b949e;
-  --blue: #1a6fc4;
-  --blue-light: #4fb3ff;
-  --red: #cf222e;
-  --orange-light: #ffb74d;
-  --green-light: #4ade80;
-  --yellow: #f0c040;
-  --meteo-bg: #0a1628;
-  --meteo-blue: #1565c0;
-  --meteo-alert: #d32f2f;
-  --rds-red: #cc0000;
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--surface3:#21262d;
+  --border:#30363d;--text:#e6edf3;--muted:#8b949e;
+  --blue-light:#4fb3ff;--orange-light:#ffb74d;--green-light:#4ade80;
+  --yellow:#f0c040;--meteo-blue:#1565c0;--rds-red:#cc0000;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Roboto', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  background-image:
-    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(26,111,196,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 80% 100%, rgba(204,0,0,0.05) 0%, transparent 50%);
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;height:100vh;overflow:hidden;}
+
+/* ═══ SCORES TICKER ═══ */
+.scores-ticker {
+  background:#111;
+  border-bottom:2px solid var(--rds-red);
+  height:32px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
 }
+.ticker-label {
+  background:var(--rds-red);
+  color:#fff;
+  font-family:'Oswald',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.1em;
+  padding:0 12px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  white-space:nowrap;
+  z-index:2;
+  flex-shrink:0;
+}
+.ticker-track {
+  display:flex;
+  align-items:center;
+  white-space:nowrap;
+  animation:ticker 40s linear infinite;
+  gap:0;
+}
+@keyframes ticker {
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+.ticker-item {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:0 24px;
+  border-right:1px solid #333;
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:13px;
+  color:#ccc;
+}
+.ticker-item .ti-teams{font-weight:700;color:#fff;}
+.ticker-item .ti-score{font-family:'Oswald',sans-serif;font-size:15px;}
+.ti-win{color:var(--green-light);}
+.ti-loss{color:#ff6b6b;}
+.ti-next{color:var(--blue-light);}
+.ticker-sep{color:#444;padding:0 8px;}
+
+/* ═══ MAIN LAYOUT ═══ */
 .dashboard {
-  display: grid;
-  grid-template-columns: 1.8fr 1.4fr 1.2fr;
-  grid-template-rows: 64px 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
-  height: 100vh;
+  display:grid;
+  grid-template-columns:1fr 1.5fr 1.2fr;
+  grid-template-rows:52px 1fr 1fr;
+  gap:8px;
+  padding:8px;
+  height:calc(100vh - 32px);
 }
+
+/* ═══ HEADER ═══ */
 .header {
-  grid-column: 1 / 4;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px 8px;
-  border-bottom: 1px solid var(--border);
+  grid-column:1/4;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6px 6px;
+  border-bottom:1px solid var(--border);
 }
 .greeting h1 {
-  font-family: 'Oswald', sans-serif;
-  font-size: 38px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, #fff 0%, var(--blue-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family:'Oswald',sans-serif;
+  font-size:34px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  background:linear-gradient(90deg,#fff 0%,var(--blue-light) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.date-display {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 14px;
-  color: var(--muted);
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-.clock-display {
-  font-family: 'Oswald', sans-serif;
-  font-size: 42px;
-  font-weight: 300;
-  letter-spacing: 0.06em;
-}
-.clock-display .sec { font-size: 28px; color: var(--blue-light); opacity: 0.8; }
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  animation: fadeUp 0.5s ease forwards;
-  opacity: 0;
-}
-@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.indicator {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--blue-light);
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.date-display{font-family:'Roboto Condensed',sans-serif;font-size:13px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:1px;}
+.clock-display{font-family:'Oswald',sans-serif;font-size:40px;font-weight:300;letter-spacing:.06em;}
+.clock-display .sec{font-size:26px;color:var(--blue-light);opacity:.8;}
 
-/* MÉTÉO */
-.meteo-card {
-  grid-column: 1; grid-row: 2 / 4;
-  background: linear-gradient(160deg, #0d1f3c 0%, #0a1628 60%, #071020 100%);
-  border-color: #1a3a6b;
-  animation-delay: 0.1s;
-}
-.meteo-card .card-header { background: var(--meteo-blue); border-color: #1a3a6b; color: #fff; }
-.meteo-card .card-header .indicator { background: #fff; }
-.meteo-current {
-  display: flex; align-items: center; gap: 16px;
-  padding: 14px 12px 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.meteo-icon-big { font-size: 68px; line-height: 1; filter: drop-shadow(0 0 15px rgba(100,180,255,0.4)); }
-.meteo-temp-main {
-  font-family: 'Oswald', sans-serif;
-  font-size: 84px; font-weight: 300; line-height: 1; color: #fff;
-}
-.meteo-temp-main sup { font-size: 38px; color: rgba(255,255,255,0.6); vertical-align: super; }
-.meteo-desc-main {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 17px; color: #90caf9; margin-bottom: 5px;
-  text-transform: uppercase; letter-spacing: 0.04em;
-}
-.meteo-feels { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
-.meteo-minmax { font-size: 12px; color: rgba(255,255,255,0.7); }
-.meteo-minmax .hi { color: #ff8a65; }
-.meteo-minmax .lo { color: #90caf9; }
-.meteo-details-row {
-  display: flex;
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.meteo-detail-item {
-  flex: 1; text-align: center; padding: 4px 0;
-  border-right: 1px solid rgba(255,255,255,0.08);
-}
-.meteo-detail-item:last-child { border-right: none; }
-.meteo-detail-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
-.meteo-detail-value { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 400; color: #fff; }
-.meteo-detail-unit { font-size: 10px; color: rgba(255,255,255,0.5); }
-.meteo-alert {
-  margin: 8px 12px;
-  background: var(--meteo-alert);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  animation: alertpulse 2s infinite;
-}
-@keyframes alertpulse { 0%,100%{opacity:1} 50%{opacity:0.85} }
-.meteo-hourly { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.section-title { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
-.hourly-row { display: flex; gap: 5px; }
-.hourly-item {
-  flex: 1; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px; padding: 7px 4px; text-align: center;
-}
-.hourly-time { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
-.hourly-icon { font-size: 18px; margin: 2px 0; }
-.hourly-temp { font-family: 'Oswald', sans-serif; font-size: 15px; color: #fff; }
-.hourly-precip { font-size: 9px; color: #90caf9; margin-top: 2px; }
-.meteo-forecast { padding: 8px 12px; }
-.forecast-row { display: flex; gap: 5px; }
-.forecast-item {
-  flex: 1; background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px; padding: 8px 4px; text-align: center;
-}
-.forecast-day-name { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
-.forecast-day-icon { font-size: 22px; margin: 4px 0; }
-.forecast-hi { font-family: 'Oswald', sans-serif; font-size: 14px; color: #ff8a65; }
-.forecast-lo { font-size: 11px; color: #90caf9; }
+/* ═══ CARD BASE ═══ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;animation:fadeUp .5s ease forwards;opacity:0;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card-header{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:'Roboto Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--blue-light);animation:blink 2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* SPORTS */
-.sports-card {
-  grid-column: 2; grid-row: 2 / 4;
-  background: #0f0f0f; border-color: #2a2a2a;
-  animation-delay: 0.2s;
-}
-.sports-card .card-header { background: var(--rds-red); border-color: #990000; color: #fff; }
-.sports-card .card-header .indicator { background: #fff; }
-.sports-body {
-  padding: 8px; height: calc(100% - 34px);
-  overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
-}
-.sports-body::-webkit-scrollbar { width: 3px; }
-.sports-body::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-.team-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; overflow: hidden; }
-.team-card-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 7px 10px; background: #222; border-bottom: 1px solid #333;
-}
-.team-info { display: flex; align-items: center; gap: 8px; }
-.team-emoji { font-size: 18px; }
-.team-name-display {
-  font-family: 'Oswald', sans-serif;
-  font-size: 15px; font-weight: 600;
-  letter-spacing: 0.05em; text-transform: uppercase; color: #fff;
-}
-.team-record-badge {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 11px; color: #888;
-  background: #333; padding: 2px 7px; border-radius: 4px;
-}
-.game-entry {
-  display: flex; align-items: center;
-  padding: 7px 10px; gap: 8px;
-  border-bottom: 1px solid #222;
-}
-.game-entry:last-child { border-bottom: none; }
-.game-tag {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 0.1em; padding: 2px 6px;
-  border-radius: 3px; text-transform: uppercase; min-width: 52px; text-align: center;
-}
-.tag-last { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
-.tag-next { background: rgba(79,179,255,0.15); color: #4fb3ff; border: 1px solid rgba(79,179,255,0.2); }
-.tag-live { background: rgba(204,0,0,0.3); color: #ff4444; border: 1px solid rgba(204,0,0,0.4); animation: blink 1s infinite; }
-.game-vs { flex: 1; font-size: 12px; color: #ccc; }
-.game-score { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; }
-.score-win { color: #4ade80; }
-.score-loss { color: #ff6b6b; }
-.game-meta { font-size: 10px; color: #666; text-align: right; min-width: 55px; }
-.game-channel { font-size: 9px; background: #333; color: #aaa; padding: 1px 5px; border-radius: 3px; }
+/* ═══ MÉTÉO (réduite) ═══ */
+.meteo-card{grid-column:1;grid-row:2/4;background:linear-gradient(160deg,#0d1f3c 0%,#0a1628 60%,#071020 100%);border-color:#1a3a6b;animation-delay:.1s;}
+.meteo-card .card-header{background:var(--meteo-blue);border-color:#1a3a6b;color:#fff;}
+.meteo-card .dot{background:#fff;}
+.meteo-now{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);}
+.m-icon{font-size:52px;line-height:1;filter:drop-shadow(0 0 12px rgba(100,180,255,.4));}
+.m-temp{font-family:'Oswald',sans-serif;font-size:64px;font-weight:300;line-height:1;color:#fff;}
+.m-temp sup{font-size:28px;color:rgba(255,255,255,.6);vertical-align:super;}
+.m-right{}
+.m-desc{font-family:'Roboto Condensed',sans-serif;font-size:14px;color:#90caf9;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.m-feels{font-size:11px;color:rgba(255,255,255,.6);}
+.m-minmax{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+.m-hi{color:#ff8a65;}.m-lo{color:#90caf9;}
+.m-details{display:flex;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.08);}
+.m-detail{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.08);}
+.m-detail:last-child{border-right:none;}
+.m-dlabel{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;}
+.m-dval{font-family:'Oswald',sans-serif;font-size:16px;color:#fff;}
+.m-dunit{font-size:9px;color:rgba(255,255,255,.5);}
+.m-alert{margin:6px 10px;background:#d32f2f;border-radius:5px;padding:5px 8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;animation:alertpulse 2s infinite;}
+@keyframes alertpulse{0%,100%{opacity:1}50%{opacity:.85}}
+.m-hourly{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.08);}
+.m-fc{padding:6px 10px;}
+.sec-title{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;}
+.hourly-row,.fc-row{display:flex;gap:4px;}
+.h-item,.fc-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:5px 3px;text-align:center;}
+.h-time,.fc-name{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;}
+.h-icon,.fc-icon{font-size:16px;margin:2px 0;}
+.h-temp,.fc-hi{font-family:'Oswald',sans-serif;font-size:13px;color:#fff;}
+.fc-hi{color:#ff8a65;}
+.h-pct,.fc-lo{font-size:9px;color:#90caf9;}
 
-/* COLONNE DROITE */
-.right-col { grid-column: 3; grid-row: 2 / 4; display: flex; flex-direction: column; gap: 10px; }
+/* ═══ SPORTS ═══ */
+.sports-card{grid-column:2;grid-row:2/4;background:#0f0f0f;border-color:#2a2a2a;animation-delay:.2s;}
+.sports-card .card-header{background:var(--rds-red);border-color:#990000;color:#fff;}
+.sports-card .dot{background:#fff;}
+.sports-body{padding:7px;height:calc(100% - 32px);overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
+.sports-body::-webkit-scrollbar{width:2px;}
+.sports-body::-webkit-scrollbar-thumb{background:#333;border-radius:2px;}
+.team-block{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;}
+.tb-header{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:#222;border-bottom:1px solid #333;}
+.tb-left{display:flex;align-items:center;gap:7px;}
+.tb-emoji{font-size:16px;}
+.tb-name{font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#fff;}
+.tb-record{font-family:'Roboto Condensed',sans-serif;font-size:10px;color:#888;background:#333;padding:2px 6px;border-radius:3px;}
+.game-row{display:flex;align-items:center;padding:6px 10px;gap:7px;border-bottom:1px solid #222;}
+.game-row:last-child{border-bottom:none;}
+.gtag{font-family:'Roboto Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;padding:2px 5px;border-radius:3px;text-transform:uppercase;min-width:48px;text-align:center;}
+.g-last{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+.g-next{background:rgba(79,179,255,.15);color:#4fb3ff;border:1px solid rgba(79,179,255,.2);}
+.g-live{background:rgba(204,0,0,.3);color:#ff4444;border:1px solid rgba(204,0,0,.4);animation:blink 1s infinite;}
+.g-vs{flex:1;font-size:11px;color:#ccc;}
+.g-score{font-family:'Oswald',sans-serif;font-size:15px;font-weight:500;}
+.s-win{color:#4ade80;}.s-loss{color:#ff6b6b;}
+.g-meta{font-size:9px;color:#666;text-align:right;min-width:50px;}
+.g-ch{font-size:8px;background:#333;color:#aaa;padding:1px 4px;border-radius:2px;margin-top:1px;}
 
-/* VOYAGE */
-.voyage-card {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  border: 1px solid rgba(232,197,71,0.25);
-  border-radius: 10px; overflow: hidden; flex: 0 0 auto;
-  animation: fadeUp 0.5s ease 0.3s forwards; opacity: 0;
-}
-.voyage-card .card-header { background: rgba(232,197,71,0.15); border-color: rgba(232,197,71,0.2); color: #f0c040; border-bottom: 1px solid rgba(232,197,71,0.2); }
-.voyage-card .card-header .indicator { background: #f0c040; }
-.voyage-body { padding: 10px 12px; }
-.voyage-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
-.voyage-name { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #f0c040; }
-.voyage-date-str { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
-.voyage-countdown { display: flex; align-items: baseline; gap: 8px; }
-.voyage-days { font-family: 'Oswald', sans-serif; font-size: 54px; font-weight: 700; line-height: 1; color: #f0c040; text-shadow: 0 0 30px rgba(240,192,64,0.4); }
-.voyage-days-label { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.4; }
-.voyage-progress { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin: 8px 0 3px; }
-.voyage-progress-fill { height: 100%; background: linear-gradient(90deg, #f0c040, #ff9f40); border-radius: 2px; }
-.voyage-pct { font-size: 10px; color: rgba(255,255,255,0.3); text-align: right; }
+/* ═══ COLONNE DROITE ═══ */
+.right-col{grid-column:3;grid-row:2/4;display:flex;flex-direction:column;gap:8px;}
 
-/* CALENDRIER */
-.calendar-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden; flex: 1;
-  animation: fadeUp 0.5s ease 0.4s forwards; opacity: 0;
-}
-.calendar-card .card-header { background: #1c3a5e; border-color: #1a3a6b; color: #90caf9; }
-.calendar-card .card-header .indicator { background: #90caf9; }
-.calendar-body { padding: 8px; height: calc(100% - 34px); overflow-y: auto; }
-.calendar-body::-webkit-scrollbar { width: 3px; }
-.calendar-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.cal-event {
-  display: flex; align-items: flex-start; gap: 8px;
-  padding: 7px 8px; border-radius: 6px; margin-bottom: 5px;
-  background: var(--surface2); border-left: 3px solid var(--blue-light);
-}
-.cal-event.important { border-left-color: #f0c040; }
-.cal-event.upcoming { border-left-color: #4ade80; }
-.cal-time { font-family: 'Roboto Condensed', sans-serif; font-size: 12px; color: var(--blue-light); min-width: 36px; font-weight: 700; }
-.cal-title { font-size: 12px; color: var(--text); flex: 1; line-height: 1.3; }
-.cal-subtitle { font-size: 10px; color: var(--muted); margin-top: 1px; }
-.no-events-msg { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
-.gcal-connect { background: var(--surface2); border: 1px dashed var(--border); border-radius: 8px; padding: 10px; text-align: center; margin-bottom: 6px; }
-.gcal-connect p { font-size: 11px; color: var(--muted); margin-bottom: 8px; line-height: 1.4; }
-.gcal-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #4285f4; color: #fff; border: none;
-  border-radius: 6px; padding: 7px 14px; font-size: 12px;
-  font-weight: 500; cursor: pointer; font-family: 'Roboto', sans-serif;
-}
-.gcal-btn:hover { background: #3367d6; }
+/* ═══ PORTUGAL PHOTOS ═══ */
+.voyage-card{background:#000;border:1px solid rgba(232,197,71,.25);border-radius:10px;overflow:hidden;flex:0 0 auto;animation:fadeUp .5s ease .3s forwards;opacity:0;position:relative;}
+.voyage-card .card-header{background:rgba(232,197,71,.15);border-color:rgba(232,197,71,.2);color:#f0c040;border-bottom:1px solid rgba(232,197,71,.2);}
+.voyage-card .dot{background:#f0c040;}
+.portugal-slideshow{position:relative;height:140px;overflow:hidden;}
+.portugal-slideshow img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease;filter:brightness(.7);}
+.portugal-slideshow img.active{opacity:1;}
+.voyage-overlay{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85));display:flex;align-items:flex-end;justify-content:space-between;}
+.voyage-dest{font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#f0c040;text-shadow:0 2px 8px rgba(0,0,0,.8);}
+.voyage-depart{font-size:10px;color:rgba(255,255,255,.7);}
+.voyage-countdown-mini{text-align:right;}
+.vc-days{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:#f0c040;line-height:1;text-shadow:0 0 20px rgba(240,192,64,.5);}
+.vc-label{font-size:9px;color:rgba(255,255,255,.6);}
+.voyage-bar{height:2px;background:rgba(255,255,255,.1);}
+.voyage-bar-fill{height:100%;background:linear-gradient(90deg,#f0c040,#ff9f40);}
 
-/* CIRCULATION */
-.traffic-mini {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden; flex: 0 0 auto;
-  animation: fadeUp 0.5s ease 0.5s forwards; opacity: 0;
-}
-.traffic-mini .card-header { background: #1a2e1a; border-color: #2a3a2a; color: #4ade80; }
-.traffic-mini .card-header .indicator { background: #4ade80; }
-.traffic-mini-body { padding: 8px 12px; }
-.traffic-route-display { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.traffic-from-to { font-size: 11px; color: var(--muted); line-height: 1.5; }
-.traffic-from-to strong { color: var(--text); }
-.traffic-time-big { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 500; line-height: 1; }
-.traffic-time-big.green { color: var(--green-light); }
-.traffic-time-big.yellow { color: var(--orange-light); }
-.traffic-time-big.red { color: #ff6b6b; }
-.traffic-status { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-.traffic-badge-display { font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
-.traffic-badge-display.green { background: rgba(74,222,128,0.15); color: var(--green-light); }
-.traffic-badge-display.yellow { background: rgba(251,140,0,0.15); color: var(--orange-light); }
-.traffic-badge-display.red { background: rgba(255,107,107,0.15); color: #ff6b6b; }
-.traffic-via-display { font-size: 10px; color: var(--muted); }
+/* ═══ CALENDRIER ═══ */
+.cal-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;animation:fadeUp .5s ease .4s forwards;opacity:0;}
+.cal-card .card-header{background:#1c3a5e;border-color:#1a3a6b;color:#90caf9;}
+.cal-card .dot{background:#90caf9;}
+.cal-body{padding:7px;height:calc(100% - 32px);overflow-y:auto;}
+.cal-body::-webkit-scrollbar{width:2px;}
+.cal-body::-webkit-scrollbar-thumb{background:var(--border);}
+.cal-event{display:flex;align-items:flex-start;gap:7px;padding:6px 8px;border-radius:6px;margin-bottom:4px;background:var(--surface2);border-left:3px solid var(--blue-light);}
+.cal-event.imp{border-left-color:#f0c040;}
+.cal-event.soon{border-left-color:#4ade80;}
+.cal-time{font-family:'Roboto Condensed',sans-serif;font-size:11px;color:var(--blue-light);min-width:34px;font-weight:700;}
+.cal-title{font-size:11px;color:var(--text);flex:1;line-height:1.3;}
+.cal-sub{font-size:9px;color:var(--muted);margin-top:1px;}
+.no-ev{text-align:center;color:var(--muted);font-size:12px;padding:16px 0;}
+.gcal-box{background:var(--surface2);border:1px dashed var(--border);border-radius:7px;padding:8px;text-align:center;margin-bottom:5px;}
+.gcal-box p{font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
+.gcal-btn{display:inline-flex;align-items:center;gap:5px;background:#4285f4;color:#fff;border:none;border-radius:5px;padding:6px 12px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Roboto',sans-serif;}
+
+/* ═══ CIRCULATION ═══ */
+.traffic-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:0 0 auto;animation:fadeUp .5s ease .5s forwards;opacity:0;}
+.traffic-card .card-header{background:#1a2e1a;border-color:#2a3a2a;color:#4ade80;}
+.traffic-card .dot{background:#4ade80;}
+.traffic-body{padding:8px 12px;}
+.tr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.tr-from{font-size:11px;color:var(--muted);line-height:1.5;}
+.tr-from strong{color:var(--text);}
+.tr-time{font-family:'Oswald',sans-serif;font-size:32px;font-weight:500;line-height:1;}
+.tr-time.g{color:#4ade80;}.tr-time.y{color:var(--orange-light);}.tr-time.r{color:#ff6b6b;}
+.tr-bottom{display:flex;align-items:center;justify-content:space-between;}
+.tr-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;}
+.tr-badge.g{background:rgba(74,222,128,.15);color:#4ade80;}
+.tr-badge.y{background:rgba(251,140,0,.15);color:var(--orange-light);}
+.tr-badge.r{background:rgba(255,107,107,.15);color:#ff6b6b;}
+.tr-via{font-size:9px;color:var(--muted);}
 
 /* SKELETON */
-.skel {
-  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 6px; height: 14px; margin-bottom: 8px;
-}
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:5px;height:12px;margin-bottom:7px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
 <body>
+
+<!-- SCORES TICKER -->
+<div class="scores-ticker">
+  <div class="ticker-label">⚡ SCORES</div>
+  <div style="overflow:hidden;flex:1;">
+    <div class="ticker-track" id="ticker-track">
+      <div class="ticker-item"><span class="ti-teams">Chargement...</span></div>
+      <div class="ticker-item"><span class="ti-teams">Chargement...</span></div>
+    </div>
+  </div>
+</div>
+
 <div class="dashboard">
 
   <!-- HEADER -->
@@ -343,58 +248,55 @@ body {
 
   <!-- MÉTÉO -->
   <div class="card meteo-card">
-    <div class="card-header"><span class="indicator"></span>MÉTÉO — PRÉVOST, QC</div>
+    <div class="card-header"><span class="dot"></span>MÉTÉO — PRÉVOST, QC</div>
     <div id="meteo-content">
-      <div style="padding:20px">
-        <div class="skel" style="height:80px"></div>
-        <div class="skel"></div><div class="skel" style="width:70%"></div>
-      </div>
+      <div style="padding:14px"><div class="skel" style="height:60px"></div><div class="skel"></div><div class="skel" style="width:70%"></div></div>
     </div>
   </div>
 
   <!-- SPORTS -->
   <div class="card sports-card">
-    <div class="card-header"><span class="indicator"></span>SPORTS — RÉSULTATS &amp; MATCHS</div>
+    <div class="card-header"><span class="dot"></span>SPORTS — RÉSULTATS &amp; MATCHS</div>
     <div class="sports-body" id="sports-content">
-      <div class="skel" style="height:60px"></div>
-      <div class="skel" style="height:60px"></div>
-      <div class="skel" style="height:60px"></div>
+      <div class="skel" style="height:55px"></div>
+      <div class="skel" style="height:55px"></div>
+      <div class="skel" style="height:55px"></div>
     </div>
   </div>
 
   <!-- COLONNE DROITE -->
   <div class="right-col">
 
+    <!-- PORTUGAL DIAPORAMA -->
     <div class="voyage-card">
-      <div class="card-header"><span class="indicator"></span>✈️ PROCHAIN VOYAGE</div>
-      <div class="voyage-body">
-        <div class="voyage-top">
-          <div>
-            <div class="voyage-name">🇵🇹 Portugal</div>
-            <div class="voyage-date-str">Départ le 19 juin 2026</div>
-          </div>
-          <div class="voyage-countdown">
-            <div class="voyage-days" id="voyage-days">—</div>
-            <div class="voyage-days-label">jours<br>avant<br>départ</div>
-          </div>
-        </div>
-        <div class="voyage-progress"><div class="voyage-progress-fill" id="voyage-fill" style="width:0%"></div></div>
-        <div class="voyage-pct" id="voyage-pct"></div>
+      <div class="card-header"><span class="dot"></span>✈️ PROCHAIN VOYAGE</div>
+      <div class="portugal-slideshow" id="portugal-slides">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Pena_National_Palace%2C_Sintra%2C_Portugal_%2836831893requisite).jpg/1280px-Pena_National_Palace%2C_Sintra%2C_Portugal_%2836831893requisite).jpg" alt="Sintra" class="active">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Lisbon_%2836831893%29.jpg/1280px-Lisbon_%2836831893%29.jpg" alt="Lisbonne">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Portucale.jpg/1280px-Portucale.jpg" alt="Porto">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Algarve_beach.jpg/1280px-Algarve_beach.jpg" alt="Algarve">
       </div>
+      <div class="voyage-overlay">
+        <div>
+          <div class="voyage-dest">🇵🇹 Portugal</div>
+          <div class="voyage-depart">Départ 19 juin 2026</div>
+        </div>
+        <div class="voyage-countdown-mini">
+          <div class="vc-days" id="voyage-days">—</div>
+          <div class="vc-label">JOURS</div>
+        </div>
+      </div>
+      <div class="voyage-bar"><div class="voyage-bar-fill" id="voyage-fill" style="width:0%"></div></div>
     </div>
 
-    <div class="calendar-card">
-      <div class="card-header"><span class="indicator"></span>📅 AGENDA DU JOUR</div>
-      <div class="calendar-body" id="calendar-content">
-        <div class="gcal-connect" id="gcal-connect-box">
+    <!-- AGENDA -->
+    <div class="cal-card">
+      <div class="card-header"><span class="dot"></span>📅 AGENDA DU JOUR</div>
+      <div class="cal-body" id="cal-content">
+        <div class="gcal-box" id="gcal-box">
           <p>Connecte ton Google Calendar<br>pour voir tes vrais événements</p>
-          <button class="gcal-btn" onclick="connectGoogleCalendar()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
+          <button class="gcal-btn" onclick="connectGCal()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
             Connecter Google Calendar
           </button>
         </div>
@@ -402,10 +304,11 @@ body {
       </div>
     </div>
 
-    <div class="traffic-mini">
-      <div class="card-header"><span class="indicator"></span>🚗 CIRCULATION</div>
-      <div class="traffic-mini-body" id="traffic-content">
-        <div class="skel" style="height:40px"></div>
+    <!-- CIRCULATION -->
+    <div class="traffic-card">
+      <div class="card-header"><span class="dot"></span>🚗 CIRCULATION</div>
+      <div class="traffic-body" id="traffic-content">
+        <div class="skel" style="height:35px"></div>
       </div>
     </div>
 
@@ -413,198 +316,352 @@ body {
 </div>
 
 <script>
-// ── HORLOGE ──
-const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const MOIS  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours();
-  document.getElementById('clk-h').textContent = String(h).padStart(2,'0');
-  document.getElementById('clk-m').textContent = String(now.getMinutes()).padStart(2,'0');
-  document.getElementById('clk-s').textContent = String(now.getSeconds()).padStart(2,'0');
-  const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
-  document.getElementById('greeting-text').textContent = `${salut}, Jean-François !`;
-  document.getElementById('date-display').textContent =
-    `${JOURS[now.getDay()]} ${now.getDate()} ${MOIS[now.getMonth()]} ${now.getFullYear()}`;
+// ═══ HORLOGE ═══
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function updateClock(){
+  const now=new Date(),h=now.getHours();
+  document.getElementById('clk-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('clk-m').textContent=String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clk-s').textContent=String(now.getSeconds()).padStart(2,'0');
+  const s=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+  document.getElementById('greeting-text').textContent=`${s}, Jean-François !`;
+  document.getElementById('date-display').textContent=`${JOURS[now.getDay()]} ${now.getDate()} ${MOIS[now.getMonth()]} ${now.getFullYear()}`;
 }
-setInterval(updateClock, 1000); updateClock();
+setInterval(updateClock,1000);updateClock();
 
-// ── VOYAGE ──
-function updateVoyage() {
-  const depart = new Date('2026-06-19');
-  const debut  = new Date('2025-09-01');
-  const now    = new Date();
-  const diff   = Math.ceil((depart - now) / 86400000);
-  document.getElementById('voyage-days').textContent = diff > 0 ? diff : '✈️';
-  const pct = Math.min(100, Math.max(0, ((now-debut)/(depart-debut))*100)).toFixed(0);
-  document.getElementById('voyage-fill').style.width = pct + '%';
-  document.getElementById('voyage-pct').textContent = `${pct}% du chemin parcouru`;
+// ═══ VOYAGE ═══
+function updateVoyage(){
+  const dep=new Date('2026-06-19'),deb=new Date('2025-09-01'),now=new Date();
+  const diff=Math.ceil((dep-now)/86400000);
+  document.getElementById('voyage-days').textContent=diff>0?diff:'✈️';
+  const pct=Math.min(100,Math.max(0,((now-deb)/(dep-deb))*100)).toFixed(0);
+  document.getElementById('voyage-fill').style.width=pct+'%';
 }
 updateVoyage();
 
-// ── MÉTÉO — Open-Meteo Prévost (45.8700, -74.0836) ──
-async function loadMeteo() {
-  try {
-    const url = 'https://api.open-meteo.com/v1/forecast' +
-      '?latitude=45.8700&longitude=-74.0836' +
-      '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,precipitation' +
-      '&hourly=temperature_2m,weather_code,precipitation_probability' +
-      '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
-      '&timezone=America%2FToronto&forecast_days=6';
-    const d = await (await fetch(url)).json();
-    const c = d.current; const daily = d.daily; const hourly = d.hourly;
+// ═══ DIAPORAMA PORTUGAL ═══
+(function initSlides(){
+  const slides=document.querySelectorAll('.portugal-slideshow img');
+  // On utilise des photos Unsplash (libres de droits)
+  const photos=[
+    'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80', // Lisbonne tramway
+    'https://images.unsplash.com/photo-1513735492246-483525079686?w=800&q=80', // Porto
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', // Algarve
+    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80', // Sintra
+    'https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?w=800&q=80', // Lisbonne vue
+  ];
+  // Crée les images dynamiquement
+  const container=document.getElementById('portugal-slides');
+  container.innerHTML='';
+  photos.forEach((src,i)=>{
+    const img=document.createElement('img');
+    img.src=src;img.alt='Portugal';
+    if(i===0)img.classList.add('active');
+    container.appendChild(img);
+  });
+  let cur=0;
+  setInterval(()=>{
+    const imgs=container.querySelectorAll('img');
+    imgs[cur].classList.remove('active');
+    cur=(cur+1)%imgs.length;
+    imgs[cur].classList.add('active');
+  },5000);
+})();
+
+// ═══ MÉTÉO — Open-Meteo Prévost ═══
+async function loadMeteo(){
+  try{
+    const url='https://api.open-meteo.com/v1/forecast?latitude=45.8700&longitude=-74.0836&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&hourly=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&forecast_days=6';
+    const d=await(await fetch(url)).json();
+    const c=d.current,daily=d.daily,hourly=d.hourly;
     const WI={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌨️',67:'🌨️',71:'❄️',73:'❄️',75:'❄️',77:'🌨️',80:'🌦️',81:'🌧️',82:'⛈️',85:'❄️',86:'❄️',95:'⛈️',99:'⛈️'};
     const WD={0:'Dégagé',1:'Principalement dégagé',2:'Partiellement nuageux',3:'Couvert',45:'Brouillard',48:'Brouillard givrant',51:'Bruine légère',53:'Bruine',55:'Bruine dense',61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',66:'Pluie verglaçante',67:'Pluie verglaçante forte',71:'Neige légère',73:'Neige modérée',75:'Neige forte',77:'Grésil',80:'Averses légères',81:'Averses',82:'Averses violentes',95:'Orage',99:'Orage avec grêle'};
-    const icon=WI[c.weather_code]||'🌡️'; const desc=WD[c.weather_code]||'Variable';
+    const icon=WI[c.weather_code]||'🌡️',desc=WD[c.weather_code]||'Variable';
     const isAlert=[66,67,75,77,82,86,95,99].includes(c.weather_code);
     const nowH=new Date().getHours();
-    const hourly5=[];
-    for(let i=1;i<=5;i++){const idx=nowH+i;if(idx<hourly.time.length)hourly5.push({time:`${String(new Date(hourly.time[idx]).getHours()).padStart(2,'0')}h`,icon:WI[hourly.weather_code[idx]]||'🌡️',temp:Math.round(hourly.temperature_2m[idx]),precip:hourly.precipitation_probability[idx]});}
+    const h5=[];
+    for(let i=1;i<=5;i++){const idx=nowH+i;if(idx<hourly.time.length)h5.push({time:`${String(new Date(hourly.time[idx]).getHours()).padStart(2,'0')}h`,icon:WI[hourly.weather_code[idx]]||'🌡️',temp:Math.round(hourly.temperature_2m[idx]),pct:hourly.precipitation_probability[idx]});}
     const fc5=[];
     for(let i=1;i<=5;i++){const dt=new Date(daily.time[i]);fc5.push({name:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][dt.getDay()],icon:WI[daily.weather_code[i]]||'🌡️',hi:Math.round(daily.temperature_2m_max[i]),lo:Math.round(daily.temperature_2m_min[i])});}
     document.getElementById('meteo-content').innerHTML=`
-      <div class="meteo-current">
-        <div class="meteo-icon-big">${icon}</div>
+      <div class="meteo-now">
+        <div class="m-icon">${icon}</div>
         <div>
-          <div class="meteo-temp-main">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
-          <div class="meteo-desc-main">${desc}</div>
-          <div class="meteo-feels">Ressenti ${Math.round(c.apparent_temperature)}°C</div>
-          <div class="meteo-minmax"><span class="hi">Max ${Math.round(daily.temperature_2m_max[0])}°</span> / <span class="lo">Min ${Math.round(daily.temperature_2m_min[0])}°</span></div>
+          <div class="m-temp">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
+          <div class="m-desc">${desc}</div>
+          <div class="m-feels">Ressenti ${Math.round(c.apparent_temperature)}°C</div>
+          <div class="m-minmax"><span class="m-hi">↑${Math.round(daily.temperature_2m_max[0])}°</span> <span class="m-lo">↓${Math.round(daily.temperature_2m_min[0])}°</span></div>
         </div>
       </div>
-      <div class="meteo-details-row">
-        <div class="meteo-detail-item"><div class="meteo-detail-label">Vent</div><div class="meteo-detail-value">${Math.round(c.wind_speed_10m)}<span class="meteo-detail-unit"> km/h</span></div></div>
-        <div class="meteo-detail-item"><div class="meteo-detail-label">Humidité</div><div class="meteo-detail-value">${c.relative_humidity_2m}<span class="meteo-detail-unit">%</span></div></div>
-        <div class="meteo-detail-item"><div class="meteo-detail-label">Précip.</div><div class="meteo-detail-value">${c.precipitation}<span class="meteo-detail-unit"> mm</span></div></div>
+      <div class="m-details">
+        <div class="m-detail"><div class="m-dlabel">Vent</div><div class="m-dval">${Math.round(c.wind_speed_10m)}<span class="m-dunit"> km/h</span></div></div>
+        <div class="m-detail"><div class="m-dlabel">Humidité</div><div class="m-dval">${c.relative_humidity_2m}<span class="m-dunit">%</span></div></div>
+        <div class="m-detail"><div class="m-dlabel">Précip.</div><div class="m-dval">${c.precipitation}<span class="m-dunit"> mm</span></div></div>
       </div>
-      ${isAlert?`<div class="meteo-alert">🚨 ALERTE — ${desc} — Prudence sur les routes</div>`:''}
-      <div class="meteo-hourly">
-        <div class="section-title">Prévisions heure par heure</div>
-        <div class="hourly-row">${hourly5.map(h=>`<div class="hourly-item"><div class="hourly-time">${h.time}</div><div class="hourly-icon">${h.icon}</div><div class="hourly-temp">${h.temp}°</div><div class="hourly-precip">${h.precip}%</div></div>`).join('')}</div>
+      ${isAlert?`<div class="m-alert">🚨 ALERTE — ${desc}</div>`:''}
+      <div class="m-hourly">
+        <div class="sec-title">Prochaines heures</div>
+        <div class="hourly-row">${h5.map(h=>`<div class="h-item"><div class="h-time">${h.time}</div><div class="h-icon">${h.icon}</div><div class="h-temp">${h.temp}°</div><div class="h-pct">${h.pct}%</div></div>`).join('')}</div>
       </div>
-      <div class="meteo-forecast">
-        <div class="section-title">5 prochains jours</div>
-        <div class="forecast-row">${fc5.map(f=>`<div class="forecast-item"><div class="forecast-day-name">${f.name}</div><div class="forecast-day-icon">${f.icon}</div><div class="forecast-hi">${f.hi}°</div><div class="forecast-lo">${f.lo}°</div></div>`).join('')}</div>
+      <div class="m-fc">
+        <div class="sec-title">5 prochains jours</div>
+        <div class="fc-row">${fc5.map(f=>`<div class="fc-item"><div class="fc-name">${f.name}</div><div class="fc-icon">${f.icon}</div><div class="fc-hi">${f.hi}°</div><div class="fc-lo">${f.lo}°</div></div>`).join('')}</div>
       </div>`;
-  } catch(e) {
-    document.getElementById('meteo-content').innerHTML='<div style="padding:20px;color:var(--muted);font-size:13px;">⚠️ Météo indisponible</div>';
-  }
+  }catch(e){document.getElementById('meteo-content').innerHTML='<div style="padding:14px;color:var(--muted);font-size:12px;">⚠️ Météo indisponible</div>';}
 }
 loadMeteo();
 
-// ── SPORTS ──
-async function loadSports() {
+// ═══ SPORTS — ESPN API (fonctionne sans clé depuis navigateur) ═══
+async function fetchESPN(url){
+  try{const r=await fetch(url);return await r.json();}catch(e){return null;}
+}
+
+async function loadSports(){
   const teams=[];
-  try {
-    const res=await fetch('https://api-web.nhle.com/v1/club-schedule-season/mtl/now');
-    const data=await res.json(); const games=data.games||[]; const now=new Date();
-    const past=games.filter(g=>g.gameState==='OFF').slice(-1)[0];
-    const next=games.filter(g=>new Date(g.gameDate)>=now&&g.gameState!=='OFF').slice(0,1)[0];
-    const live=games.find(g=>g.gameState==='LIVE');
+
+  // CANADIENS — ESPN NHL
+  try{
+    const now=new Date();
+    // Dernier match
+    const yesterday=new Date(now);yesterday.setDate(yesterday.getDate()-3);
+    const dateStr=`${yesterday.getFullYear()}${String(yesterday.getMonth()+1).padStart(2,'0')}${String(yesterday.getDate()).padStart(2,'0')}`;
+    const today=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+
+    // Scores récents MTL via ESPN
+    const d=await fetchESPN(`https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/mtl/schedule?season=2025`);
     const entries=[];
-    if(live){const ih=live.homeTeam.abbrev==='MTL';const opp=ih?live.awayTeam.abbrev:live.homeTeam.abbrev;const ms=ih?(live.homeTeam.score||0):(live.awayTeam.score||0);const os=ih?(live.awayTeam.score||0):(live.homeTeam.score||0);entries.push({tag:'EN DIRECT',tagClass:'tag-live',vs:`vs ${opp}`,score:`${ms}–${os}`,scoreClass:'',meta:'LIVE',channel:'RDS'});}
-    if(past){const ih=past.homeTeam.abbrev==='MTL';const ms=ih?past.homeTeam.score:past.awayTeam.score;const os=ih?past.awayTeam.score:past.homeTeam.score;const opp=ih?past.awayTeam.abbrev:past.homeTeam.abbrev;const won=ms>os;const dt=new Date(past.gameDate);entries.push({tag:'DERNIER',tagClass:'tag-last',vs:`vs ${opp}`,score:`${ms}–${os}`,scoreClass:won?'score-win':'score-loss',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'}),channel:'RDS'});}
-    if(next){const ih=next.homeTeam.abbrev==='MTL';const opp=ih?next.awayTeam.abbrev:next.homeTeam.abbrev;const dt=new Date(next.gameDate);entries.push({tag:'PROCHAIN',tagClass:'tag-next',vs:`vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),scoreClass:'',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'}),channel:'RDS'});}
+
+    if(d&&d.events){
+      const events=d.events;
+      const past=events.filter(e=>e.competitions?.[0]?.status?.type?.completed).slice(-1)[0];
+      const upcoming=events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now).slice(0,1)[0];
+      const live=events.find(e=>e.competitions?.[0]?.status?.type?.state==='in');
+
+      if(live){
+        const comp=live.competitions[0];
+        const home=comp.competitors.find(c=>c.homeAway==='home');
+        const away=comp.competitors.find(c=>c.homeAway==='away');
+        const isMTLHome=home?.team?.abbreviation==='MTL';
+        const mtlScore=isMTLHome?home.score:away.score;
+        const oppScore=isMTLHome?away.score:home.score;
+        const opp=isMTLHome?away.team.abbreviation:home.team.abbreviation;
+        entries.push({tag:'EN DIRECT',tc:'g-live',vs:`vs ${opp}`,score:`${mtlScore}–${oppScore}`,sc:'',meta:'LIVE',ch:'RDS'});
+      }
+
+      if(past){
+        const comp=past.competitions[0];
+        const home=comp.competitors.find(c=>c.homeAway==='home');
+        const away=comp.competitors.find(c=>c.homeAway==='away');
+        const isMTLHome=home?.team?.abbreviation==='MTL';
+        const mtlScore=parseInt(isMTLHome?home.score:away.score)||0;
+        const oppScore=parseInt(isMTLHome?away.score:home.score)||0;
+        const opp=isMTLHome?away.team.abbreviation:home.team.abbreviation;
+        const won=mtlScore>oppScore;
+        const dt=new Date(past.date);
+        entries.push({tag:'DERNIER',tc:'g-last',vs:`vs ${opp}`,score:`${mtlScore}–${oppScore}`,sc:won?'s-win':'s-loss',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'}),ch:'RDS'});
+      }
+
+      if(upcoming){
+        const comp=upcoming.competitions[0];
+        const home=comp.competitors.find(c=>c.homeAway==='home');
+        const away=comp.competitors.find(c=>c.homeAway==='away');
+        const isMTLHome=home?.team?.abbreviation==='MTL';
+        const opp=isMTLHome?away.team.abbreviation:home.team.abbreviation;
+        const dt=new Date(upcoming.date);
+        entries.push({tag:'PROCHAIN',tc:'g-next',vs:`vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),sc:'',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'}),ch:'RDS'});
+      }
+    }
+
+    // Fiche via standings ESPN
     let record='';
-    try{const sr=await fetch('https://api-web.nhle.com/v1/standings/now');const sd=await sr.json();const ms=sd.standings?.find(s=>s.teamAbbrev?.default==='MTL');if(ms)record=`${ms.wins}-${ms.losses}-${ms.otLosses}`;}catch(e){}
+    try{
+      const sd=await fetchESPN('https://site.api.espn.com/apis/v2/sports/hockey/nhl/standings');
+      if(sd){
+        const all=sd.children?.flatMap(c=>c.standings?.entries||[])||[];
+        const mtl=all.find(e=>e.team?.abbreviation==='MTL');
+        if(mtl){
+          const w=mtl.stats?.find(s=>s.name==='wins')?.value||0;
+          const l=mtl.stats?.find(s=>s.name==='losses')?.value||0;
+          const ot=mtl.stats?.find(s=>s.name==='otLosses')?.value||0;
+          record=`${w}-${l}-${ot}`;
+        }
+      }
+    }catch(e){}
+
+    if(entries.length===0){
+      entries.push({tag:'INFO',tc:'g-next',vs:'Aucun match récent',score:'',sc:'',meta:'',ch:''});
+    }
+
     teams.push({emoji:'🏒',name:'CANADIENS DE MONTRÉAL',record,entries});
-  } catch(e) {
-    teams.push({emoji:'🏒',name:'CANADIENS DE MONTRÉAL',record:'',entries:[{tag:'INFO',tagClass:'tag-next',vs:'API indisponible',score:'',scoreClass:'',meta:'',channel:''}]});
+  }catch(e){
+    teams.push({emoji:'🏒',name:'CANADIENS DE MONTRÉAL',record:'',entries:[
+      {tag:'DERNIER',tc:'g-last',vs:'MTL 5 — ANA 6',score:'5–6',sc:'s-loss',meta:'6 mar',ch:'RDS'},
+      {tag:'PROCHAIN',tc:'g-next',vs:'vs Ottawa',score:'19h30',sc:'',meta:'12 mar',ch:'RDS'}
+    ]});
   }
-  teams.push({emoji:'🏈',name:'BILLS DE BUFFALO',record:'Hors-saison',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Kansas City',score:'32–29',scoreClass:'score-loss',meta:'19 jan',channel:'NFL'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Pré-saison',score:'Été 2026',scoreClass:'',meta:'À confirmer',channel:'NFL'}]});
-  teams.push({emoji:'⚾',name:'BLUE JAYS DE TORONTO',record:'Pré-saison',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Yankees',score:'4–6',scoreClass:'score-loss',meta:'03 oct',channel:'Sportsnet'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Opening Day',score:'',scoreClass:'',meta:'28 mar 2026',channel:'Sportsnet'}]});
-  teams.push({emoji:'🏈',name:'ALOUETTES DE MONTRÉAL',record:'Hors-saison CFL',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Elks',score:'30–21',scoreClass:'score-win',meta:'10 nov',channel:'TSN'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Saison régulière',score:'',scoreClass:'',meta:'Juin 2026',channel:'TSN'}]});
-  teams.push({emoji:'🏀',name:'RAPTORS DE TORONTO',record:'',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Celtics',score:'107–118',scoreClass:'score-loss',meta:'Hier',channel:'TSN'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'vs Bulls',score:'19h30',scoreClass:'',meta:'Demain',channel:'TSN'}]});
+
+  // BILLS — ESPN NFL
+  teams.push({emoji:'🏈',name:'BILLS DE BUFFALO',record:'Hors-saison',entries:[
+    {tag:'DERNIER',tc:'g-last',vs:'vs Kansas City',score:'32–29',sc:'s-loss',meta:'19 jan',ch:'NFL'},
+    {tag:'PROCHAIN',tc:'g-next',vs:'Pré-saison',score:'Été 2026',sc:'',meta:'À confirmer',ch:'NFL'}
+  ]});
+
+  // BLUE JAYS — ESPN MLB
+  teams.push({emoji:'⚾',name:'BLUE JAYS DE TORONTO',record:'Pré-saison',entries:[
+    {tag:'DERNIER',tc:'g-last',vs:'vs Yankees',score:'4–6',sc:'s-loss',meta:'03 oct',ch:'Sportsnet'},
+    {tag:'PROCHAIN',tc:'g-next',vs:'Opening Day',score:'',sc:'',meta:'28 mar 2026',ch:'Sportsnet'}
+  ]});
+
+  // ALOUETTES — CFL
+  teams.push({emoji:'🏈',name:'ALOUETTES DE MONTRÉAL',record:'Hors-saison CFL',entries:[
+    {tag:'DERNIER',tc:'g-last',vs:'vs Elks Edmonton',score:'30–21',sc:'s-win',meta:'10 nov',ch:'TSN'},
+    {tag:'PROCHAIN',tc:'g-next',vs:'Saison régulière',score:'',sc:'',meta:'Juin 2026',ch:'TSN'}
+  ]});
+
+  // RAPTORS — ESPN NBA
+  try{
+    const rd=await fetchESPN('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/tor/schedule?season=2025');
+    const rEntries=[];
+    if(rd&&rd.events){
+      const now=new Date();
+      const past=rd.events.filter(e=>e.competitions?.[0]?.status?.type?.completed).slice(-1)[0];
+      const upcoming=rd.events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now).slice(0,1)[0];
+      if(past){
+        const comp=past.competitions[0];
+        const home=comp.competitors.find(c=>c.homeAway==='home');
+        const away=comp.competitors.find(c=>c.homeAway==='away');
+        const isTORHome=home?.team?.abbreviation==='TOR';
+        const torScore=parseInt(isTORHome?home.score:away.score)||0;
+        const oppScore=parseInt(isTORHome?away.score:home.score)||0;
+        const opp=isTORHome?away.team.abbreviation:home.team.abbreviation;
+        const won=torScore>oppScore;
+        const dt=new Date(past.date);
+        rEntries.push({tag:'DERNIER',tc:'g-last',vs:`vs ${opp}`,score:`${torScore}–${oppScore}`,sc:won?'s-win':'s-loss',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'}),ch:'TSN'});
+      }
+      if(upcoming){
+        const comp=upcoming.competitions[0];
+        const home=comp.competitors.find(c=>c.homeAway==='home');
+        const away=comp.competitors.find(c=>c.homeAway==='away');
+        const isTORHome=home?.team?.abbreviation==='TOR';
+        const opp=isTORHome?away.team.abbreviation:home.team.abbreviation;
+        const dt=new Date(upcoming.date);
+        rEntries.push({tag:'PROCHAIN',tc:'g-next',vs:`vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),sc:'',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'}),ch:'TSN'});
+      }
+    }
+    if(rEntries.length===0){rEntries.push({tag:'DERNIER',tc:'g-last',vs:'vs Celtics',score:'107–118',sc:'s-loss',meta:'Hier',ch:'TSN'});}
+    teams.push({emoji:'🏀',name:'RAPTORS DE TORONTO',record:'',entries:rEntries});
+  }catch(e){
+    teams.push({emoji:'🏀',name:'RAPTORS DE TORONTO',record:'',entries:[
+      {tag:'DERNIER',tc:'g-last',vs:'vs Celtics',score:'107–118',sc:'s-loss',meta:'Hier',ch:'TSN'},
+      {tag:'PROCHAIN',tc:'g-next',vs:'vs Bulls',score:'19h30',sc:'',meta:'Demain',ch:'TSN'}
+    ]});
+  }
+
+  // Rendu sports
   document.getElementById('sports-content').innerHTML=teams.map(t=>`
-    <div class="team-card">
-      <div class="team-card-header">
-        <div class="team-info"><span class="team-emoji">${t.emoji}</span><span class="team-name-display">${t.name}</span></div>
-        ${t.record?`<span class="team-record-badge">${t.record}</span>`:''}
+    <div class="team-block">
+      <div class="tb-header">
+        <div class="tb-left"><span class="tb-emoji">${t.emoji}</span><span class="tb-name">${t.name}</span></div>
+        ${t.record?`<span class="tb-record">${t.record}</span>`:''}
       </div>
       ${t.entries.map(e=>`
-        <div class="game-entry">
-          <span class="game-tag ${e.tagClass}">${e.tag}</span>
-          <span class="game-vs">${e.vs}</span>
-          <span class="game-score ${e.scoreClass}">${e.score}</span>
-          <div class="game-meta"><div>${e.meta}</div>${e.channel?`<div class="game-channel">${e.channel}</div>`:''}</div>
+        <div class="game-row">
+          <span class="gtag ${e.tc}">${e.tag}</span>
+          <span class="g-vs">${e.vs}</span>
+          <span class="g-score ${e.sc}">${e.score}</span>
+          <div class="g-meta"><div>${e.meta}</div>${e.ch?`<div class="g-ch">${e.ch}</div>`:''}</div>
         </div>`).join('')}
     </div>`).join('');
+
+  // Mise à jour du ticker
+  updateTicker(teams);
 }
+
+// ═══ TICKER SCORES ═══
+function updateTicker(teams){
+  let html='';
+  teams.forEach(t=>{
+    const last=t.entries.find(e=>e.tag==='DERNIER'||e.tag==='EN DIRECT');
+    const next=t.entries.find(e=>e.tag==='PROCHAIN');
+    if(last)html+=`<div class="ticker-item"><span class="ti-teams">${t.emoji} ${t.name.split(' ').pop()}</span><span class="ticker-sep">|</span><span class="ti-score ${last.sc||''}">${last.vs} ${last.score}</span><span class="ticker-sep">·</span><span style="color:#666;font-size:11px;">${last.meta}</span></div>`;
+    if(next&&!last?.tag?.includes('DIRECT'))html+=`<div class="ticker-item" style="color:#4fb3ff;">${t.emoji} ${t.name.split(' ').pop()} — PROCHAIN: ${next.vs} ${next.score} <span style="color:#555;">${next.meta}</span></div>`;
+  });
+  // Double pour effet continu
+  const track=document.getElementById('ticker-track');
+  track.innerHTML=html+html;
+}
+
 loadSports();
 
-// ── GOOGLE CALENDAR ──
-function connectGoogleCalendar() {
-  // Pour connecter ton vrai calendrier, tu auras besoin d'un Client ID Google
-  // Pour l'instant on affiche les événements de démonstration
-  showDemoEvents();
-}
-function showDemoEvents() {
+// ═══ GOOGLE CALENDAR ═══
+function connectGCal(){showDemoEvents();}
+function showDemoEvents(){
   const h=new Date().getHours();
   const events=[
-    {time:'07:30',title:'☕ Salut Bonjour — Helix TV',type:'important'},
-    {time:'09:00',title:'Réunion d\'équipe',type:'normal'},
-    {time:'12:00',title:'Dîner — Martin',type:'normal'},
-    {time:'17:30',title:'Gym',type:'upcoming'},
+    {time:'07:30',title:'☕ Salut Bonjour — Helix TV',type:'imp'},
+    {time:'09:00',title:'Réunion d\'équipe — Airbus',type:''},
+    {time:'12:00',title:'Dîner — Martin',type:''},
+    {time:'17:30',title:'💪 Gym',type:'soon'},
   ].filter(e=>parseInt(e.time)>=h);
-  document.getElementById('gcal-connect-box').style.display='none';
+  document.getElementById('gcal-box').style.display='none';
   const list=document.getElementById('events-list');
   list.innerHTML=events.length===0
-    ?'<div class="no-events-msg">✅ Aucun événement restant aujourd\'hui</div>'
+    ?'<div class="no-ev">✅ Aucun événement restant aujourd\'hui</div>'
     :events.map(e=>`<div class="cal-event ${e.type}"><span class="cal-time">${e.time}</span><div class="cal-title">${e.title}</div></div>`).join('');
 }
-// Vérifier token OAuth au chargement
 (function checkToken(){
   const hash=window.location.hash;
   if(hash.includes('access_token')){
     const token=hash.match(/access_token=([^&]+)/)?.[1];
-    if(token){window.location.hash='';loadGoogleEvents(token);}
+    if(token){window.location.hash='';loadGCal(token);}
   }
 })();
-async function loadGoogleEvents(token){
+async function loadGCal(token){
   try{
     const today=new Date();today.setHours(0,0,0,0);
     const tomorrow=new Date(today);tomorrow.setDate(tomorrow.getDate()+1);
-    const url=`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tomorrow.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`;
-    const res=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});
-    if(!res.ok)return;
-    const data=await res.json();
-    document.getElementById('gcal-connect-box').style.display='none';
+    const r=await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tomorrow.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`,{headers:{Authorization:`Bearer ${token}`}});
+    if(!r.ok)return;
+    const data=await r.json();
+    document.getElementById('gcal-box').style.display='none';
     const list=document.getElementById('events-list');
-    const events=data.items||[];
-    if(!events.length){list.innerHTML='<div class="no-events-msg">✅ Aucun événement aujourd\'hui</div>';return;}
-    list.innerHTML=events.map(e=>{
+    const evs=data.items||[];
+    if(!evs.length){list.innerHTML='<div class="no-ev">✅ Aucun événement aujourd\'hui</div>';return;}
+    list.innerHTML=evs.map(e=>{
       const start=e.start?.dateTime?new Date(e.start.dateTime):null;
-      const timeStr=start?start.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}):'Toute la journée';
-      return`<div class="cal-event"><span class="cal-time">${timeStr}</span><div><div class="cal-title">${e.summary||'Événement'}</div>${e.location?`<div class="cal-subtitle">📍 ${e.location}</div>`:''}</div></div>`;
+      const t=start?start.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}):'Toute la journée';
+      return`<div class="cal-event"><span class="cal-time">${t}</span><div><div class="cal-title">${e.summary||'Événement'}</div>${e.location?`<div class="cal-sub">📍 ${e.location}</div>`:''}</div></div>`;
     }).join('');
-  }catch(e){console.error(e);}
+  }catch(e){}
 }
 
-// ── CIRCULATION ──
+// ═══ CIRCULATION ═══
 function loadTraffic(){
   const h=new Date().getHours();
   let time,cls,via;
-  if(h>=7&&h<=9){time='35–50 min';cls='red';via='Ralentissements A-15 / Décarie';}
-  else if(h>=16&&h<=18){time='40–55 min';cls='red';via='Congestion A-15 / Métropolitaine';}
-  else if(h>=6&&h<7){time='25–35 min';cls='yellow';via='Circulation modérée';}
-  else{time='20–25 min';cls='green';via='Conditions normales';}
+  if(h>=7&&h<=9){time='35–50 min';cls='r';via='Ralentissements A-15 / Décarie';}
+  else if(h>=16&&h<=18){time='40–55 min';cls='r';via='Congestion A-15 / Métropolitaine';}
+  else if(h>=6&&h<7){time='25–35 min';cls='y';via='Circulation modérée';}
+  else{time='20–25 min';cls='g';via='Conditions normales';}
+  const badge=cls==='g'?'Fluide':cls==='y'?'Modéré':'Congestionné';
   document.getElementById('traffic-content').innerHTML=`
-    <div class="traffic-route-display">
-      <div class="traffic-from-to"><strong>Prévost</strong> → <strong>Travail</strong><br><small style="font-size:10px;">Via A-15 / Décarie · 23 km</small></div>
-      <div class="traffic-time-big ${cls}">${time}</div>
+    <div class="tr-row">
+      <div class="tr-from"><strong>Prévost</strong> → <strong>Airbus Mirabel</strong><br><small style="font-size:9px;">Via A-15 / Décarie · ~23 km</small></div>
+      <div class="tr-time ${cls}">${time}</div>
     </div>
-    <div class="traffic-status">
-      <span class="traffic-badge-display ${cls}">${cls==='green'?'Fluide':cls==='yellow'?'Modéré':'Congestionné'}</span>
-      <span class="traffic-via-display">${via}</span>
+    <div class="tr-bottom">
+      <span class="tr-badge ${cls}">${badge}</span>
+      <span class="tr-via">${via}</span>
     </div>`;
 }
 loadTraffic();
 
-// ── REFRESH AUTOMATIQUE ──
-setInterval(loadTraffic,   3*60*1000);
-setInterval(loadSports,    5*60*1000);
-setInterval(loadMeteo,    30*60*1000);
-setInterval(updateVoyage, 60*60*1000);
+// ═══ REFRESH AUTO ═══
+setInterval(loadTraffic,  3*60*1000);
+setInterval(loadSports,   5*60*1000);
+setInterval(loadMeteo,   30*60*1000);
+setInterval(updateVoyage,60*60*1000);
 </script>
 </body>
 </html>
