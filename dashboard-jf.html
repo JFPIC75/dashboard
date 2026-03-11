@@ -7,200 +7,100 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0d1117;
-  --surface:#161b22;
-  --surface2:#1c2330;
-  --surface3:#21262d;
-  --border:#30363d;
-  --text:#e6edf3;
-  --muted:#8b949e;
-  --blue:#1565c0;
-  --blue-light:#4fb3ff;
-  --orange:#fb8c00;
-  --orange-light:#ffb74d;
-  --green-light:#4ade80;
-  --yellow:#f0c040;
-  --red:#cc0000;
-  --lcn-blue:#003087;
-  --lcn-red:#e30613;
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--surface3:#21262d;
+  --border:#30363d;--text:#e6edf3;--muted:#8b949e;
+  --blue:#1565c0;--blue-light:#4fb3ff;
+  --orange-light:#ffb74d;--green-light:#4ade80;
+  --yellow:#f0c040;--red:#cc0000;
+  --lcn-blue:#003087;--lcn-red:#e30613;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;}
+.tv-wrapper{display:flex;flex-direction:column;height:100vh;}
 
-/* ══════════════════════════════════
-   STRUCTURE PRINCIPALE — comme une vraie TV
-   TOP BAR → HEADER → CONTENT → SCORES BAR → NEWS TICKER
-   ══════════════════════════════════ */
-
-.tv-wrapper {
-  display:flex;
-  flex-direction:column;
-  height:100vh;
-}
-
-/* ═══ 1. HEADER — Bonjour + Heure ═══ */
-.tv-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 16px 0;
-  flex-shrink:0;
-  height:58px;
-}
-.greeting h1 {
-  font-family:'Oswald',sans-serif;
-  font-size:34px;font-weight:600;
-  letter-spacing:.04em;text-transform:uppercase;
-  background:linear-gradient(90deg,#fff 0%,var(--blue-light) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.date-str {
-  font-family:'Roboto Condensed',sans-serif;
-  font-size:12px;color:var(--muted);
-  letter-spacing:.06em;text-transform:uppercase;margin-top:1px;
-}
-.clock {
-  font-family:'Oswald',sans-serif;
-  font-size:44px;font-weight:300;letter-spacing:.06em;
-  color:var(--text);
-}
+/* ═══ HEADER ═══ */
+.tv-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 0;flex-shrink:0;height:56px;}
+.greeting h1{font-family:'Oswald',sans-serif;font-size:34px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:linear-gradient(90deg,#fff 0%,var(--blue-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.date-str{font-family:'Roboto Condensed',sans-serif;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;}
+.clock{font-family:'Oswald',sans-serif;font-size:44px;font-weight:300;letter-spacing:.06em;}
 .clock .sec{font-size:28px;color:var(--blue-light);opacity:.8;}
 
-/* ═══ 2. SCORES BAR — Fixe sous le header, style RDS ═══ */
-.scores-bar {
-  display:flex;
-  align-items:stretch;
-  margin:6px 8px;
-  background:#111;
-  border:1px solid #222;
-  border-radius:8px;
-  overflow:hidden;
-  flex-shrink:0;
-  height:44px;
-}
-.scores-label {
-  background:var(--red);
-  color:#fff;
-  font-family:'Oswald',sans-serif;
-  font-size:13px;font-weight:700;
-  letter-spacing:.1em;
-  padding:0 14px;
-  display:flex;align-items:center;
-  white-space:nowrap;
-  flex-shrink:0;
-}
-.scores-items {
-  display:flex;
-  align-items:center;
-  flex:1;
-  overflow:hidden;
-  gap:0;
-}
-.score-item {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border-right:1px solid #2a2a2a;
-  height:100%;
-  flex:1;
-  min-width:0;
-}
-.score-item:last-child{border-right:none;}
-.si-sport {
-  font-size:9px;color:#666;
-  text-transform:uppercase;letter-spacing:.08em;
-  font-family:'Roboto Condensed',sans-serif;
-  flex-shrink:0;
-}
-.si-teams {
-  font-family:'Oswald',sans-serif;
-  font-size:14px;font-weight:600;
-  color:#fff;white-space:nowrap;
-  flex-shrink:0;
-}
-.si-score {
-  font-family:'Oswald',sans-serif;
-  font-size:18px;font-weight:700;
-  white-space:nowrap;flex-shrink:0;
-}
-.si-score.win{color:var(--green-light);}
-.si-score.loss{color:#ff6b6b;}
-.si-score.next{color:var(--blue-light);font-size:14px;}
-.si-meta {
-  font-size:10px;color:#555;
-  font-family:'Roboto Condensed',sans-serif;
-  white-space:nowrap;
-}
-.si-live {
-  font-size:9px;background:var(--red);color:#fff;
-  padding:2px 5px;border-radius:3px;
-  animation:blink 1s infinite;flex-shrink:0;
-}
+/* ═══ SCORES BAR — alternance par équipe ═══ */
+.scores-bar{display:flex;align-items:stretch;margin:5px 8px;background:#111;border:1px solid #222;border-radius:8px;overflow:hidden;flex-shrink:0;height:48px;}
+.scores-label{background:var(--red);color:#fff;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;padding:0 12px;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;}
+.scores-items{display:flex;align-items:stretch;flex:1;overflow:hidden;}
+
+/* Chaque slot d'équipe */
+.score-slot{flex:1;border-right:1px solid #1e1e1e;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.score-slot:last-child{border-right:none;}
+
+/* Les 3 états qui s'alternent */
+.slot-state{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;gap:7px;padding:0 10px;opacity:0;transition:opacity .6s ease;pointer-events:none;}
+.slot-state.visible{opacity:1;}
+
+.ss-sport{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:.08em;font-family:'Roboto Condensed',sans-serif;flex-shrink:0;min-width:28px;}
+.ss-tag{font-size:8px;font-family:'Roboto Condensed',sans-serif;font-weight:700;letter-spacing:.08em;padding:2px 5px;border-radius:3px;text-transform:uppercase;flex-shrink:0;}
+.tag-last2{background:rgba(139,148,158,.12);color:#8b949e;border:1px solid rgba(139,148,158,.2);}
+.tag-last1{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+.tag-next{background:rgba(79,179,255,.15);color:#4fb3ff;border:1px solid rgba(79,179,255,.2);}
+.tag-live{background:rgba(204,0,0,.3);color:#ff4444;border:1px solid rgba(204,0,0,.4);animation:blink 1s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ═══ 3. CONTENU PRINCIPAL ═══ */
-.tv-content {
-  display:grid;
-  grid-template-columns:280px 1fr 280px;
-  gap:8px;
-  padding:0 8px;
-  flex:1;
-  min-height:0;
-}
+.ss-vs{font-family:'Roboto Condensed',sans-serif;font-size:12px;color:#bbb;white-space:nowrap;flex:1;overflow:hidden;text-overflow:ellipsis;}
+.ss-score{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;white-space:nowrap;flex-shrink:0;}
+.ss-score.win{color:var(--green-light);}
+.ss-score.loss{color:#ff6b6b;}
+.ss-score.next{color:var(--blue-light);font-size:13px;}
+.ss-meta{font-size:9px;color:#444;white-space:nowrap;flex-shrink:0;font-family:'Roboto Condensed',sans-serif;}
 
-/* MÉTÉO — colonne gauche compacte */
-.meteo-col {
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  min-height:0;
-}
-.meteo-card {
-  background:linear-gradient(160deg,#0d1f3c 0%,#0a1628 60%,#071020 100%);
-  border:1px solid #1a3a6b;
-  border-radius:10px;overflow:hidden;
-  animation:fadeUp .5s ease .1s forwards;opacity:0;
-  display:flex;flex-direction:column;
-  flex:1;
-}
+/* Indicateur de pagination (petits points) */
+.slot-dots{position:absolute;bottom:3px;right:6px;display:flex;gap:3px;}
+.slot-dot{width:4px;height:4px;border-radius:50%;background:#333;}
+.slot-dot.active{background:var(--red);}
+
+/* ═══ CONTENU PRINCIPAL ═══ */
+.tv-content{display:grid;grid-template-columns:268px 1fr 272px;gap:8px;padding:0 8px;flex:1;min-height:0;}
+
+/* MÉTÉO */
+.meteo-col{display:flex;flex-direction:column;gap:6px;min-height:0;}
+.meteo-card{background:linear-gradient(160deg,#0d1f3c 0%,#0a1628 60%,#071020 100%);border:1px solid #1a3a6b;border-radius:10px;overflow:hidden;animation:fadeUp .5s ease .1s forwards;opacity:0;display:flex;flex-direction:column;flex:1;min-height:0;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .m-hdr{background:var(--blue);padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .m-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 2s infinite;}
-.m-body{padding:8px 10px;flex:1;overflow:hidden;}
-.m-now{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08);}
-.m-icon{font-size:44px;line-height:1;}
-.m-temp{font-family:'Oswald',sans-serif;font-size:54px;font-weight:300;line-height:1;color:#fff;}
-.m-temp sup{font-size:22px;color:rgba(255,255,255,.6);vertical-align:super;}
+.m-body{padding:8px 10px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:6px;}
+.m-now{display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08);}
+.m-icon{font-size:46px;line-height:1;}
+.m-temp{font-family:'Oswald',sans-serif;font-size:56px;font-weight:300;line-height:1;color:#fff;}
+.m-temp sup{font-size:24px;color:rgba(255,255,255,.6);vertical-align:super;}
 .m-desc{font-family:'Roboto Condensed',sans-serif;font-size:12px;color:#90caf9;text-transform:uppercase;letter-spacing:.04em;}
 .m-feels{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;}
 .m-mm{font-size:10px;margin-top:2px;}
 .m-hi{color:#ff8a65;}.m-lo{color:#90caf9;}
-.m-stats{display:flex;gap:0;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08);}
+.m-stats{display:flex;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08);}
 .m-stat{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
 .m-stat:last-child{border-right:none;}
 .m-slabel{font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;}
-.m-sval{font-family:'Oswald',sans-serif;font-size:14px;color:#fff;}
+.m-sval{font-family:'Oswald',sans-serif;font-size:15px;color:#fff;}
 .m-sunit{font-size:8px;color:rgba(255,255,255,.4);}
-.m-alert{background:#d32f2f;border-radius:4px;padding:4px 8px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;animation:alertpulse 2s infinite;}
+.m-alert{background:#d32f2f;border-radius:4px;padding:4px 8px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;animation:alertpulse 2s infinite;}
 @keyframes alertpulse{0%,100%{opacity:1}50%{opacity:.8}}
 .sec-lbl{font-size:8px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
-.h-row,.fc-row{display:flex;gap:3px;margin-bottom:6px;}
+.h-row,.fc-row{display:flex;gap:3px;}
 .h-item,.fc-item{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:5px;padding:4px 2px;text-align:center;}
 .h-time,.fc-name{font-size:8px;color:rgba(255,255,255,.45);text-transform:uppercase;}
 .h-ico,.fc-ico{font-size:14px;margin:1px 0;}
 .h-tmp,.fc-hi{font-family:'Oswald',sans-serif;font-size:12px;color:#fff;}
 .fc-hi{color:#ff8a65;}.h-pct,.fc-lo{font-size:8px;color:#90caf9;}
 
-/* CIRCULATION sous météo */
+/* CIRCULATION */
 .traffic-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;animation:fadeUp .5s ease .2s forwards;opacity:0;flex-shrink:0;}
 .t-hdr{background:#1a2e1a;padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80;display:flex;align-items:center;gap:6px;}
 .t-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;}
 .t-body{padding:8px 10px;}
 .t-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
-.t-from{font-size:10px;color:var(--muted);line-height:1.4;}
+.t-from{font-size:10px;color:var(--muted);line-height:1.5;}
 .t-from strong{color:var(--text);font-size:11px;}
-.t-time{font-family:'Oswald',sans-serif;font-size:28px;font-weight:500;line-height:1;}
+.t-time{font-family:'Oswald',sans-serif;font-size:30px;font-weight:500;line-height:1;}
 .t-time.g{color:#4ade80;}.t-time.y{color:var(--orange-light);}.t-time.r{color:#ff6b6b;}
 .t-btm{display:flex;align-items:center;justify-content:space-between;}
 .t-badge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;}
@@ -209,25 +109,10 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .t-badge.r{background:rgba(255,107,107,.15);color:#ff6b6b;}
 .t-via{font-size:9px;color:var(--muted);}
 
-/* COLONNE CENTRE — Nouvelles LCN */
-.news-col {
-  display:flex;flex-direction:column;
-  min-height:0;
-  animation:fadeUp .5s ease .2s forwards;opacity:0;
-}
-.news-card {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;
-  flex:1;display:flex;flex-direction:column;
-}
-.news-hdr {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:7px 14px;
-  background:var(--lcn-blue);
-  border-bottom:2px solid var(--lcn-red);
-  flex-shrink:0;
-}
+/* NOUVELLES */
+.news-col{display:flex;flex-direction:column;min-height:0;animation:fadeUp .5s ease .2s forwards;opacity:0;}
+.news-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;display:flex;flex-direction:column;}
+.news-hdr{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:var(--lcn-blue);border-bottom:2px solid var(--lcn-red);flex-shrink:0;}
 .news-hdr-left{display:flex;align-items:center;gap:10px;}
 .news-logo{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:.05em;color:#fff;}
 .news-logo span{color:var(--lcn-red);}
@@ -236,7 +121,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .news-body{flex:1;overflow-y:auto;padding:10px 14px;}
 .news-body::-webkit-scrollbar{width:3px;}
 .news-body::-webkit-scrollbar-thumb{background:var(--border);}
-.news-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.news-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
 .news-item:last-child{border-bottom:none;}
 .news-cat{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;white-space:nowrap;height:fit-content;flex-shrink:0;margin-top:2px;}
 .cat-qc{background:rgba(227,6,19,.2);color:#ff6b6b;border:1px solid rgba(227,6,19,.3);}
@@ -244,20 +129,16 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .cat-monde{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
 .cat-sport{background:rgba(240,192,64,.15);color:#f0c040;border:1px solid rgba(240,192,64,.2);}
 .cat-eco{background:rgba(251,140,0,.15);color:var(--orange-light);border:1px solid rgba(251,140,0,.2);}
-.news-text{}
-.news-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:4px;}
+.news-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:3px;}
 .news-desc{font-size:11px;color:var(--muted);line-height:1.5;}
 .news-age{font-size:9px;color:#444;margin-top:3px;font-family:'Roboto Condensed',sans-serif;}
-.news-loading{padding:20px;text-align:center;color:var(--muted);font-size:13px;}
 
 /* COLONNE DROITE */
 .right-col{display:flex;flex-direction:column;gap:6px;min-height:0;}
-
-/* PORTUGAL */
 .voyage-card{background:#000;border:1px solid rgba(232,197,71,.25);border-radius:10px;overflow:hidden;flex-shrink:0;animation:fadeUp .5s ease .3s forwards;opacity:0;}
 .v-hdr{background:rgba(232,197,71,.15);padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f0c040;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(232,197,71,.2);}
 .v-dot{width:5px;height:5px;border-radius:50%;background:#f0c040;animation:blink 2s infinite;}
-.v-slides{position:relative;height:120px;overflow:hidden;}
+.v-slides{position:relative;height:118px;overflow:hidden;}
 .v-slides img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease;filter:brightness(.65);}
 .v-slides img.active{opacity:1;}
 .v-overlay{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,.9));display:flex;align-items:flex-end;justify-content:space-between;}
@@ -268,8 +149,6 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .v-lbl{font-size:8px;color:rgba(255,255,255,.5);}
 .v-bar{height:2px;background:rgba(255,255,255,.08);}
 .v-fill{height:100%;background:linear-gradient(90deg,#f0c040,#ff9f40);}
-
-/* AGENDA */
 .cal-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;animation:fadeUp .5s ease .4s forwards;opacity:0;display:flex;flex-direction:column;}
 .c-hdr{background:#1c3a5e;padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#90caf9;display:flex;align-items:center;gap:6px;border-bottom:1px solid #1a3a6b;flex-shrink:0;}
 .c-dot{width:5px;height:5px;border-radius:50%;background:#90caf9;animation:blink 2s infinite;}
@@ -287,51 +166,18 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .gcal-box p{font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
 .gcal-btn{display:inline-flex;align-items:center;gap:5px;background:#4285f4;color:#fff;border:none;border-radius:5px;padding:5px 10px;font-size:10px;font-weight:500;cursor:pointer;font-family:'Roboto',sans-serif;}
 
-/* ═══ 4. BARRE DU BAS — Nouvelles défilantes style TV ═══ */
-.news-ticker-bar {
-  height:36px;
-  background:#0a0a14;
-  border-top:2px solid var(--lcn-red);
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  flex-shrink:0;
-}
-.ntb-label {
-  background:var(--lcn-red);
-  color:#fff;
-  font-family:'Oswald',sans-serif;
-  font-size:12px;font-weight:700;
-  letter-spacing:.1em;
-  padding:0 14px;
-  height:100%;display:flex;align-items:center;
-  white-space:nowrap;flex-shrink:0;
-}
-.ntb-track-wrap{overflow:hidden;flex:1;}
-.ntb-track{
-  display:flex;align-items:center;
-  white-space:nowrap;
-  animation:scrollnews 60s linear infinite;
-}
-@keyframes scrollnews{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ntb-item{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:0 28px;
-  font-family:'Roboto Condensed',sans-serif;
-  font-size:13px;color:#ddd;
-}
-.ntb-item .ntb-cat{font-weight:700;color:var(--lcn-red);font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.05em;}
-.ntb-sep{color:#333;font-size:18px;}
-
 /* SKELETON */
 .skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:5px;margin-bottom:6px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* BOTTOM PADDING */
+.tv-bottom-pad{height:8px;flex-shrink:0;}
 </style>
 </head>
 <body>
 <div class="tv-wrapper">
 
-  <!-- ═══ HEADER ═══ -->
+  <!-- HEADER -->
   <div class="tv-header">
     <div class="greeting">
       <h1 id="greeting-text">Bonjour, Jean-François !</h1>
@@ -340,15 +186,15 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
     <div class="clock"><span id="clk-h">00</span>:<span id="clk-m">00</span><span class="sec">:<span id="clk-s">00</span></span></div>
   </div>
 
-  <!-- ═══ SCORES BAR — fixe sous le header ═══ -->
+  <!-- SCORES BAR -->
   <div class="scores-bar">
     <div class="scores-label">⚡ SCORES</div>
     <div class="scores-items" id="scores-items">
-      <div class="score-item"><span class="si-sport">NHL</span><span class="si-teams">MTL</span><span class="si-score next">Chargement...</span></div>
+      <!-- rempli par JS -->
     </div>
   </div>
 
-  <!-- ═══ CONTENU PRINCIPAL ═══ -->
+  <!-- CONTENU PRINCIPAL -->
   <div class="tv-content">
 
     <!-- GAUCHE : MÉTÉO + CIRCULATION -->
@@ -358,7 +204,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
         <div class="m-body" id="meteo-content">
           <div class="skel" style="height:50px;border-radius:8px;"></div>
           <div class="skel" style="height:12px;width:80%"></div>
-          <div class="skel" style="height:12px;width:60%"></div>
+          <div class="skel" style="height:40px;border-radius:6px;"></div>
         </div>
       </div>
       <div class="traffic-card">
@@ -369,7 +215,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
       </div>
     </div>
 
-    <!-- CENTRE : NOUVELLES LCN/TVA -->
+    <!-- CENTRE : NOUVELLES -->
     <div class="news-col">
       <div class="news-card">
         <div class="news-hdr">
@@ -381,7 +227,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
           <div class="news-time-str" id="news-time"></div>
         </div>
         <div class="news-body" id="news-content">
-          <div class="news-loading">📰 Chargement des nouvelles...</div>
+          <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">📰 Chargement des nouvelles...</div>
         </div>
       </div>
     </div>
@@ -409,17 +255,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
     </div>
 
   </div>
-
-  <!-- ═══ BARRE DU BAS — Nouvelles défilantes ═══ -->
-  <div class="news-ticker-bar">
-    <div class="ntb-label">📺 LCN</div>
-    <div class="ntb-track-wrap">
-      <div class="ntb-track" id="ntb-track">
-        <div class="ntb-item"><span class="ntb-cat">QUÉBEC</span> Chargement des nouvelles en cours...</div>
-      </div>
-    </div>
-  </div>
-
+  <div class="tv-bottom-pad"></div>
 </div>
 
 <script>
@@ -452,26 +288,23 @@ function updateVoyage(){
 }
 (function initSlides(){
   const photos=[
-    {url:'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',cap:'Lisbonne'},
-    {url:'https://images.unsplash.com/photo-1513735492246-483525079686?w=800&q=80',cap:'Porto'},
-    {url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',cap:'Algarve'},
-    {url:'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80',cap:'Sintra'},
-    {url:'https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?w=800&q=80',cap:'Lisbonne'},
+    'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',
+    'https://images.unsplash.com/photo-1513735492246-483525079686?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80',
+    'https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?w=800&q=80',
   ];
   const container=document.getElementById('v-slides');
   const days=updateVoyage();
-  photos.forEach((p,i)=>{
+  photos.forEach((src,i)=>{
     const img=document.createElement('img');
-    img.src=p.url;img.alt=p.cap;
+    img.src=src;img.alt='Portugal';
     if(i===0)img.classList.add('active');
     container.appendChild(img);
   });
-  // Overlay
   const ov=document.createElement('div');
   ov.className='v-overlay';
-  ov.innerHTML=`
-    <div><div class="v-name">🇵🇹 Portugal</div><div class="v-date">Départ 19 juin 2026</div></div>
-    <div class="v-cnt"><div class="v-days">${days>0?days:'✈️'}</div><div class="v-lbl">JOURS</div></div>`;
+  ov.innerHTML=`<div><div class="v-name">🇵🇹 Portugal</div><div class="v-date">Départ 19 juin 2026</div></div><div class="v-cnt"><div class="v-days">${days>0?days:'✈️'}</div><div class="v-lbl">JOURS</div></div>`;
   container.appendChild(ov);
   let cur=0;
   setInterval(()=>{
@@ -481,6 +314,217 @@ function updateVoyage(){
     imgs[cur].classList.add('active');
   },5000);
 })();
+
+// ══════════════════════════════
+// SCORES — alternance automatique
+// Chaque équipe a 3 états : avant-dernier, dernier, prochain
+// ══════════════════════════════
+
+// Structure des données par équipe
+// states = [{tag, tagClass, vs, score, scoreClass, meta}, ...]
+const teamSlots = [
+  {
+    id:'mtl', sport:'NHL 🏒',
+    states:[] // rempli par ESPN
+  },
+  {
+    id:'tor-nba', sport:'NBA 🏀',
+    states:[]
+  },
+  {
+    id:'buf', sport:'NFL 🏈',
+    states:[
+      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Pittsburgh',score:'28–14',sc:'win',meta:'5 jan'},
+      {tag:'DERNIER',tc:'tag-last1',vs:'vs Kansas City',score:'32–29',sc:'loss',meta:'19 jan'},
+      {tag:'PROCHAIN',tc:'tag-next',vs:'Pré-saison',score:'Été 2026',sc:'next',meta:'À conf.'},
+    ]
+  },
+  {
+    id:'tor-mlb', sport:'MLB ⚾',
+    states:[
+      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Red Sox',score:'5–3',sc:'win',meta:'1 oct'},
+      {tag:'DERNIER',tc:'tag-last1',vs:'vs Yankees',score:'4–6',sc:'loss',meta:'3 oct'},
+      {tag:'PROCHAIN',tc:'tag-next',vs:'Opening Day',score:'28 mar',sc:'next',meta:'2026'},
+    ]
+  },
+  {
+    id:'als', sport:'CFL 🏈',
+    states:[
+      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Stampeders',score:'27–20',sc:'win',meta:'3 nov'},
+      {tag:'DERNIER',tc:'tag-last1',vs:'vs Elks',score:'30–21',sc:'win',meta:'10 nov'},
+      {tag:'PROCHAIN',tc:'tag-next',vs:'Saison régulière',score:'Juin 2026',sc:'next',meta:''},
+    ]
+  },
+];
+
+// Index courant par slot (0=avant-dernier, 1=dernier, 2=prochain)
+const slotCurrentIndex = {};
+
+function buildScoresBar(){
+  const container=document.getElementById('scores-items');
+  container.innerHTML='';
+  teamSlots.forEach((team,ti)=>{
+    slotCurrentIndex[team.id]=1; // commence sur "DERNIER"
+    const slot=document.createElement('div');
+    slot.className='score-slot';
+    slot.id=`slot-${team.id}`;
+    // Crée les 3 états
+    const states=team.states.length>0?team.states:[
+      {tag:'...',tc:'tag-last2',vs:'Chargement',score:'',sc:'next',meta:''},
+      {tag:'...',tc:'tag-last1',vs:'Chargement',score:'',sc:'next',meta:''},
+      {tag:'...',tc:'tag-next',vs:'Chargement',score:'',sc:'next',meta:''},
+    ];
+    states.forEach((s,si)=>{
+      const div=document.createElement('div');
+      div.className='slot-state'+(si===1?' visible':'');
+      div.id=`state-${team.id}-${si}`;
+      div.innerHTML=`
+        <span class="ss-sport">${team.sport}</span>
+        <span class="ss-tag ${s.tc}">${s.tag}</span>
+        <span class="ss-vs">${s.vs}</span>
+        <span class="ss-score ${s.sc}">${s.score}</span>
+        <span class="ss-meta">${s.meta}</span>`;
+      slot.appendChild(div);
+    });
+    // Points indicateurs
+    const dots=document.createElement('div');
+    dots.className='slot-dots';
+    dots.id=`dots-${team.id}`;
+    [0,1,2].forEach(i=>{
+      const d=document.createElement('div');
+      d.className='slot-dot'+(i===1?' active':'');
+      dots.appendChild(d);
+    });
+    slot.appendChild(dots);
+    container.appendChild(slot);
+  });
+}
+
+function rotateSlot(teamId){
+  const team=teamSlots.find(t=>t.id===teamId);
+  if(!team||team.states.length===0)return;
+  const cur=slotCurrentIndex[teamId];
+  const next=(cur+1)%3;
+  // Cache l'actuel
+  const curEl=document.getElementById(`state-${teamId}-${cur}`);
+  const nextEl=document.getElementById(`state-${teamId}-${next}`);
+  if(!curEl||!nextEl)return;
+  curEl.classList.remove('visible');
+  nextEl.classList.add('visible');
+  // Mise à jour des points
+  const dots=document.getElementById(`dots-${teamId}`)?.querySelectorAll('.slot-dot');
+  if(dots){dots.forEach((d,i)=>d.classList.toggle('active',i===next));}
+  slotCurrentIndex[teamId]=next;
+}
+
+function updateSlotStates(teamId, states){
+  const team=teamSlots.find(t=>t.id===teamId);
+  if(!team)return;
+  team.states=states;
+  // Reconstruire les états dans le DOM
+  states.forEach((s,si)=>{
+    const el=document.getElementById(`state-${teamId}-${si}`);
+    if(el){
+      el.innerHTML=`
+        <span class="ss-sport">${team.sport}</span>
+        <span class="ss-tag ${s.tc}">${s.tag}</span>
+        <span class="ss-vs">${s.vs}</span>
+        <span class="ss-score ${s.sc}">${s.score}</span>
+        <span class="ss-meta">${s.meta}</span>`;
+    }
+  });
+}
+
+// Rotation automatique — chaque équipe alterne toutes les 4 secondes
+// Chaque équipe commence à un moment différent pour éviter que tout tourne en même temps
+function startRotations(){
+  teamSlots.forEach((team,i)=>{
+    setTimeout(()=>{
+      setInterval(()=>rotateSlot(team.id), 4000);
+    }, i*800); // décalage de 800ms entre chaque équipe
+  });
+}
+
+// ══════════════════════════════
+// ESPN API — Canadiens & Raptors
+// ══════════════════════════════
+async function fetchESPN(url){
+  try{const r=await fetch(url);return await r.json();}catch(e){return null;}
+}
+
+function parseTeamGames(events, abbrev, now){
+  const past=events.filter(e=>e.competitions?.[0]?.status?.type?.completed);
+  const upcoming=events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now);
+  const live=events.find(e=>e.competitions?.[0]?.status?.type?.state==='in');
+
+  const parseGame=(event)=>{
+    if(!event)return null;
+    const comp=event.competitions[0];
+    const home=comp.competitors.find(c=>c.homeAway==='home');
+    const away=comp.competitors.find(c=>c.homeAway==='away');
+    const isHome=home?.team?.abbreviation===abbrev;
+    const myScore=parseInt(isHome?home.score:away.score)||0;
+    const oppScore=parseInt(isHome?away.score:home.score)||0;
+    const opp=isHome?away.team.abbreviation:home.team.abbreviation;
+    const won=myScore>oppScore;
+    const dt=new Date(event.date);
+    return{opp,myScore,oppScore,won,dt};
+  };
+
+  const results={live:null,last2:null,last1:null,next:null};
+  if(live){
+    const g=parseGame(live);
+    if(g)results.live={tag:'EN DIRECT',tc:'tag-live',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:'',meta:'LIVE'};
+  }
+  if(past.length>=2){
+    const g=parseGame(past[past.length-2]);
+    if(g)results.last2={tag:'AVANT-DERNIER',tc:'tag-last2',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:g.won?'win':'loss',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})};
+  }
+  if(past.length>=1){
+    const g=parseGame(past[past.length-1]);
+    if(g)results.last1={tag:'DERNIER',tc:'tag-last1',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:g.won?'win':'loss',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})};
+  }
+  if(upcoming.length>=1){
+    const g=parseGame(upcoming[0]);
+    if(g){
+      const timeStr=g.dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'});
+      results.next={tag:'PROCHAIN',tc:'tag-next',vs:`vs ${g.opp}`,score:timeStr,sc:'next',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'})};
+    }
+  }
+  return results;
+}
+
+async function loadScores(){
+  // Canadiens
+  try{
+    const d=await fetchESPN('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/mtl/schedule?season=2025');
+    if(d?.events){
+      const now=new Date();
+      const r=parseTeamGames(d.events,'MTL',now);
+      const states=[
+        r.last2||{tag:'AVANT-DERNIER',tc:'tag-last2',vs:'MTL',score:'—',sc:'',meta:''},
+        r.live||r.last1||{tag:'DERNIER',tc:'tag-last1',vs:'MTL',score:'—',sc:'',meta:''},
+        r.next||{tag:'PROCHAIN',tc:'tag-next',vs:'À confirmer',score:'',sc:'next',meta:''},
+      ];
+      updateSlotStates('mtl',states);
+    }
+  }catch(e){}
+
+  // Raptors
+  try{
+    const d=await fetchESPN('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/tor/schedule?season=2025');
+    if(d?.events){
+      const now=new Date();
+      const r=parseTeamGames(d.events,'TOR',now);
+      const states=[
+        r.last2||{tag:'AVANT-DERNIER',tc:'tag-last2',vs:'TOR',score:'—',sc:'',meta:''},
+        r.live||r.last1||{tag:'DERNIER',tc:'tag-last1',vs:'TOR',score:'—',sc:'',meta:''},
+        r.next||{tag:'PROCHAIN',tc:'tag-next',vs:'À confirmer',score:'',sc:'next',meta:''},
+      ];
+      updateSlotStates('tor-nba',states);
+    }
+  }catch(e){}
+}
 
 // ══════════════════════════════
 // MÉTÉO
@@ -514,32 +558,28 @@ async function loadMeteo(){
       ${isAlert?`<div class="m-alert">🚨 ALERTE — ${desc}</div>`:''}
       <div><div class="sec-lbl">Prochaines heures</div>
       <div class="h-row">${h5.map(h=>`<div class="h-item"><div class="h-time">${h.time}</div><div class="h-ico">${h.icon}</div><div class="h-tmp">${h.temp}°</div><div class="h-pct">${h.pct}%</div></div>`).join('')}</div></div>
-      <div><div class="sec-lbl">5 jours</div>
+      <div><div class="sec-lbl">5 prochains jours</div>
       <div class="fc-row">${fc5.map(f=>`<div class="fc-item"><div class="fc-name">${f.name}</div><div class="fc-ico">${f.icon}</div><div class="fc-hi">${f.hi}°</div><div class="fc-lo">${f.lo}°</div></div>`).join('')}</div></div>`;
   }catch(e){document.getElementById('meteo-content').innerHTML='<div style="color:var(--muted);font-size:11px;padding:8px;">⚠️ Météo indisponible</div>';}
 }
 loadMeteo();
 
 // ══════════════════════════════
-// NOUVELLES — RSS via allorigins proxy
+// NOUVELLES RSS
 // ══════════════════════════════
 const NEWS_FEEDS=[
   {url:'https://www.lapresse.ca/actualites/rss',label:'QUÉBEC',cat:'cat-qc'},
   {url:'https://ici.radio-canada.ca/rss/4159',label:'CANADA',cat:'cat-can'},
   {url:'https://ici.radio-canada.ca/rss/4148',label:'MONDE',cat:'cat-monde'},
 ];
-
 async function loadNews(){
   const allItems=[];
   for(const feed of NEWS_FEEDS){
     try{
-      const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
-      const r=await fetch(proxy);
+      const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`);
       const data=await r.json();
-      const parser=new DOMParser();
-      const xml=parser.parseFromString(data.contents,'text/xml');
-      const items=xml.querySelectorAll('item');
-      items.forEach((item,i)=>{
+      const xml=new DOMParser().parseFromString(data.contents,'text/xml');
+      xml.querySelectorAll('item').forEach((item,i)=>{
         if(i>=4)return;
         const title=item.querySelector('title')?.textContent||'';
         const desc=item.querySelector('description')?.textContent?.replace(/<[^>]+>/g,'').substring(0,120)||'';
@@ -549,149 +589,31 @@ async function loadNews(){
       });
     }catch(e){}
   }
-
-  if(allItems.length===0){
-    // Nouvelles de démonstration si RSS bloqué
-    const demo=[
-      {title:'Tempête hivernale : plus de 10 000 foyers sans électricité dans les Laurentides',desc:'Hydro-Québec mobilise ses équipes pour rétablir le courant. Les conditions routières sont difficiles sur l\'A-15.',age:'Il y a 12 min',label:'QUÉBEC',cat:'cat-qc'},
-      {title:'Budget fédéral 2026 : nouvelles mesures pour les familles canadiennes',desc:'Le gouvernement annonce des allégements fiscaux et des investissements dans les garderies.',age:'Il y a 34 min',label:'CANADA',cat:'cat-can'},
-      {title:'Crise au Moyen-Orient : nouvelles négociations en cours',desc:'Les diplomates tentent de relancer les pourparlers de paix.',age:'Il y a 1h',label:'MONDE',cat:'cat-monde'},
-      {title:'Canadiens de Montréal : Cole Caufield signe une prolongation de contrat',desc:'La superstar du CH s\'engage pour les 8 prochaines saisons.',age:'Il y a 2h',label:'SPORT',cat:'cat-sport'},
-      {title:'Économie : l\'inflation ralentit au Canada en février 2026',desc:'Statistique Canada rapporte un taux de 2,1%, en baisse par rapport au mois précédent.',age:'Il y a 3h',label:'ÉCONOMIE',cat:'cat-eco'},
-      {title:'Météo : redoux prévu pour la fin de semaine dans les Laurentides',desc:'Les températures pourraient atteindre -2°C samedi, avant un retour du froid lundi.',age:'Il y a 4h',label:'QUÉBEC',cat:'cat-qc'},
-    ];
-    renderNews(demo);
-    updateNewsTicker(demo);
-    return;
-  }
-
-  renderNews(allItems);
-  updateNewsTicker(allItems);
-}
-
-function getAge(date){
-  const diff=Math.floor((new Date()-date)/60000);
-  if(diff<1)return'À l\'instant';
-  if(diff<60)return`Il y a ${diff} min`;
-  if(diff<1440)return`Il y a ${Math.floor(diff/60)}h`;
-  return`Il y a ${Math.floor(diff/1440)}j`;
-}
-
-function renderNews(items){
+  const items=allItems.length>0?allItems:getDemoNews();
   document.getElementById('news-content').innerHTML=items.map(n=>`
     <div class="news-item">
       <span class="news-cat ${n.cat}">${n.label}</span>
-      <div class="news-text">
+      <div>
         <div class="news-title">${n.title}</div>
         ${n.desc?`<div class="news-desc">${n.desc}...</div>`:''}
         <div class="news-age">${n.age}</div>
       </div>
     </div>`).join('');
 }
-
-function updateNewsTicker(items){
-  const html=items.map(n=>`<div class="ntb-item"><span class="ntb-cat">${n.label}</span> <span class="ntb-sep">▸</span> ${n.title}</div>`).join('');
-  const track=document.getElementById('ntb-track');
-  track.innerHTML=html+html; // double pour boucle infinie
+function getAge(date){
+  const diff=Math.floor((new Date()-date)/60000);
+  if(diff<1)return'À l\'instant';if(diff<60)return`Il y a ${diff} min`;
+  if(diff<1440)return`Il y a ${Math.floor(diff/60)}h`;return`Il y a ${Math.floor(diff/1440)}j`;
 }
-
+function getDemoNews(){return[
+  {title:'Tempête hivernale : plus de 10 000 foyers sans électricité dans les Laurentides',desc:'Hydro-Québec mobilise ses équipes. Conditions routières difficiles sur l\'A-15.',age:'Il y a 12 min',label:'QUÉBEC',cat:'cat-qc'},
+  {title:'Budget fédéral 2026 : nouvelles mesures pour les familles canadiennes',desc:'Le gouvernement annonce des allégements fiscaux et des investissements dans les garderies.',age:'Il y a 34 min',label:'CANADA',cat:'cat-can'},
+  {title:'Crise au Moyen-Orient : nouvelles négociations en cours',desc:'Les diplomates tentent de relancer les pourparlers de paix cette semaine.',age:'Il y a 1h',label:'MONDE',cat:'cat-monde'},
+  {title:'Canadiens : Cole Caufield signe une prolongation de contrat record',desc:'La superstar du CH s\'engage pour les 8 prochaines saisons avec Montréal.',age:'Il y a 2h',label:'QUÉBEC',cat:'cat-qc'},
+  {title:'Économie : l\'inflation ralentit à 2,1% au Canada en février 2026',desc:'Statistique Canada rapporte un recul encourageant selon les économistes.',age:'Il y a 3h',label:'CANADA',cat:'cat-can'},
+  {title:'Météo : redoux prévu pour la fin de semaine dans les Laurentides',desc:'Les températures pourraient atteindre -2°C samedi avant un retour du froid.',age:'Il y a 4h',label:'QUÉBEC',cat:'cat-qc'},
+];}
 loadNews();
-
-// ══════════════════════════════
-// SCORES — ESPN API
-// ══════════════════════════════
-async function loadScores(){
-  const scoreData=[];
-
-  // NHL — Canadiens
-  try{
-    const d=await(await fetch('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/mtl/schedule?season=2025')).json();
-    if(d&&d.events){
-      const now=new Date();
-      const live=d.events.find(e=>e.competitions?.[0]?.status?.type?.state==='in');
-      const past=d.events.filter(e=>e.competitions?.[0]?.status?.type?.completed).slice(-1)[0];
-      const next=d.events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now).slice(0,1)[0];
-
-      if(live){
-        const comp=live.competitions[0];
-        const home=comp.competitors.find(c=>c.homeAway==='home');
-        const away=comp.competitors.find(c=>c.homeAway==='away');
-        const isMH=home?.team?.abbreviation==='MTL';
-        const ms=isMH?home.score:away.score;
-        const os=isMH?away.score:home.score;
-        const opp=isMH?away.team.abbreviation:home.team.abbreviation;
-        scoreData.push({sport:'NHL 🏒',teams:`MTL vs ${opp}`,score:`${ms}–${os}`,cls:'',meta:'EN DIRECT',live:true});
-      } else if(past){
-        const comp=past.competitions[0];
-        const home=comp.competitors.find(c=>c.homeAway==='home');
-        const away=comp.competitors.find(c=>c.homeAway==='away');
-        const isMH=home?.team?.abbreviation==='MTL';
-        const ms=parseInt(isMH?home.score:away.score)||0;
-        const os=parseInt(isMH?away.score:home.score)||0;
-        const opp=isMH?away.team.abbreviation:home.team.abbreviation;
-        const won=ms>os;
-        const dt=new Date(past.date);
-        scoreData.push({sport:'NHL 🏒',teams:`MTL vs ${opp}`,score:`${ms}–${os}`,cls:won?'win':'loss',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})});
-      } else if(next){
-        const comp=next.competitions[0];
-        const home=comp.competitors.find(c=>c.homeAway==='home');
-        const away=comp.competitors.find(c=>c.homeAway==='away');
-        const isMH=home?.team?.abbreviation==='MTL';
-        const opp=isMH?away.team.abbreviation:home.team.abbreviation;
-        const dt=new Date(next.date);
-        scoreData.push({sport:'NHL 🏒',teams:`MTL vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),cls:'next',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})});
-      }
-    }
-  }catch(e){
-    scoreData.push({sport:'NHL 🏒',teams:'MTL vs OTT',score:'19h30',cls:'next',meta:'12 mar'});
-  }
-
-  // NBA — Raptors
-  try{
-    const d=await(await fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/tor/schedule?season=2025')).json();
-    if(d&&d.events){
-      const now=new Date();
-      const past=d.events.filter(e=>e.competitions?.[0]?.status?.type?.completed).slice(-1)[0];
-      const next=d.events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now).slice(0,1)[0];
-      if(past){
-        const comp=past.competitions[0];
-        const home=comp.competitors.find(c=>c.homeAway==='home');
-        const away=comp.competitors.find(c=>c.homeAway==='away');
-        const isTH=home?.team?.abbreviation==='TOR';
-        const ts=parseInt(isTH?home.score:away.score)||0;
-        const os=parseInt(isTH?away.score:home.score)||0;
-        const opp=isTH?away.team.abbreviation:home.team.abbreviation;
-        scoreData.push({sport:'NBA 🏀',teams:`TOR vs ${opp}`,score:`${ts}–${os}`,cls:ts>os?'win':'loss',meta:new Date(past.date).toLocaleDateString('fr-CA',{month:'short',day:'numeric'})});
-      } else if(next){
-        const comp=next.competitions[0];
-        const home=comp.competitors.find(c=>c.homeAway==='home');
-        const away=comp.competitors.find(c=>c.homeAway==='away');
-        const isTH=home?.team?.abbreviation==='TOR';
-        const opp=isTH?away.team.abbreviation:home.team.abbreviation;
-        const dt=new Date(next.date);
-        scoreData.push({sport:'NBA 🏀',teams:`TOR vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),cls:'next',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})});
-      }
-    }
-  }catch(e){
-    scoreData.push({sport:'NBA 🏀',teams:'TOR vs BOS',score:'107–118',cls:'loss',meta:'Hier'});
-  }
-
-  // Bills & Blue Jays (hors-saison)
-  scoreData.push({sport:'NFL 🏈',teams:'BUF vs KC',score:'32–29',cls:'loss',meta:'19 jan'});
-  scoreData.push({sport:'MLB ⚾',teams:'TOR Opening Day',score:'28 mar',cls:'next',meta:'2026'});
-  scoreData.push({sport:'CFL 🏈',teams:'ALS — Saison',score:'Juin 2026',cls:'next',meta:''});
-
-  // Rendu barre de scores
-  document.getElementById('scores-items').innerHTML=scoreData.map(s=>`
-    <div class="score-item">
-      <span class="si-sport">${s.sport}</span>
-      <span class="si-teams">${s.teams}</span>
-      <span class="si-score ${s.cls}">${s.score}</span>
-      ${s.live?'<span class="si-live">LIVE</span>':''}
-      <span class="si-meta">${s.meta}</span>
-    </div>`).join('');
-}
-loadScores();
 
 // ══════════════════════════════
 // CIRCULATION
@@ -700,7 +622,7 @@ function loadTraffic(){
   const h=new Date().getHours();
   let time,cls,via;
   if(h>=7&&h<=9){time='35–50 min';cls='r';via='Ralentissements A-15 / Décarie';}
-  else if(h>=16&&h<=18){time='40–55 min';cls='r';via='Congestion A-15 / Métropolitaine';}
+  else if(h>=16&&h<=18){time='40–55 min';cls='r';via='Congestion A-15 / Métro';}
   else if(h>=6&&h<7){time='25–35 min';cls='y';via='Circulation modérée';}
   else{time='20–25 min';cls='g';via='Conditions normales';}
   const badge=cls==='g'?'Fluide':cls==='y'?'Modéré':'Congestionné';
@@ -709,10 +631,7 @@ function loadTraffic(){
       <div class="t-from"><strong>Prévost</strong> → <strong>Airbus Mirabel</strong><br><small style="font-size:9px;color:var(--muted);">Via A-15 / Décarie · ~23 km</small></div>
       <div class="t-time ${cls}">${time}</div>
     </div>
-    <div class="t-btm">
-      <span class="t-badge ${cls}">${badge}</span>
-      <span class="t-via">${via}</span>
-    </div>`;
+    <div class="t-btm"><span class="t-badge ${cls}">${badge}</span><span class="t-via">${via}</span></div>`;
 }
 loadTraffic();
 
@@ -742,8 +661,8 @@ function showDemoEvents(){
 async function loadGCal(token){
   try{
     const today=new Date();today.setHours(0,0,0,0);
-    const tomorrow=new Date(today);tomorrow.setDate(tomorrow.getDate()+1);
-    const r=await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tomorrow.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`,{headers:{Authorization:`Bearer ${token}`}});
+    const tom=new Date(today);tom.setDate(tom.getDate()+1);
+    const r=await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tom.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`,{headers:{Authorization:`Bearer ${token}`}});
     if(!r.ok)return;
     const data=await r.json();
     document.getElementById('gcal-box').style.display='none';
@@ -758,13 +677,17 @@ async function loadGCal(token){
 }
 
 // ══════════════════════════════
-// REFRESH AUTO
+// INIT & REFRESH AUTO
 // ══════════════════════════════
-setInterval(loadTraffic,  3*60*1000);
-setInterval(loadScores,   5*60*1000);
-setInterval(loadNews,    15*60*1000);
-setInterval(loadMeteo,   30*60*1000);
-setInterval(updateVoyage,60*60*1000);
+buildScoresBar();
+loadScores();
+startRotations();
+
+setInterval(loadTraffic,   3*60*1000);
+setInterval(loadScores,    5*60*1000);
+setInterval(loadNews,     15*60*1000);
+setInterval(loadMeteo,    30*60*1000);
+setInterval(updateVoyage, 60*60*1000);
 </script>
 </body>
 </html>
