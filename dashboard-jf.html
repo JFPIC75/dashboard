@@ -4,887 +4,607 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bonjour Jean-François</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0e17;
-    --surface: #111827;
-    --surface2: #1a2235;
-    --accent: #e8c547;
-    --accent2: #4fb3ff;
-    --accent3: #ff6b6b;
-    --green: #4ade80;
-    --text: #f0f4ff;
-    --muted: #8899bb;
-    --border: #1e2d45;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow: hidden;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(78,131,255,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 90% 90%, rgba(232,197,71,0.05) 0%, transparent 50%);
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 2.2fr 1.6fr 1.4fr;
-    grid-template-rows: auto auto auto;
-    gap: 12px;
-    padding: 16px;
-    height: 100vh;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px 22px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  }
-
-  .card-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .card-label .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* === HEADER: Bonjour + Clock === */
-  .header {
-    grid-column: 1 / 4;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 22px;
-    background: transparent;
-    border: none;
-  }
-
-  .greeting h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    letter-spacing: 0.05em;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--text) 40%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .greeting .date-str {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 2px;
-    font-weight: 300;
-  }
-
-  .clock {
-    text-align: right;
-  }
-
-  .clock .time {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 72px;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    color: var(--text);
-  }
-
-  .clock .seconds {
-    color: var(--accent);
-    font-size: 52px;
-  }
-
-  /* === METEO === */
-  .meteo-card {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .meteo-main {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  .meteo-icon {
-    font-size: 64px;
-    line-height: 1;
-    filter: drop-shadow(0 0 20px rgba(232,197,71,0.4));
-  }
-
-  .meteo-temp {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 80px;
-    line-height: 1;
-    color: var(--text);
-  }
-
-  .meteo-temp sup {
-    font-size: 36px;
-    color: var(--muted);
-    vertical-align: super;
-  }
-
-  .meteo-desc {
-    font-size: 15px;
-    color: var(--muted);
-    margin-top: 4px;
-    font-weight: 300;
-  }
-
-  .meteo-details {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 16px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .meteo-details span { display: flex; align-items: center; gap: 4px; }
-
-  .forecast {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-  }
-
-  .forecast-day {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 8px 6px;
-    text-align: center;
-    border: 1px solid var(--border);
-  }
-
-  .forecast-day .day-name {
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 4px;
-  }
-
-  .forecast-day .day-icon { font-size: 22px; margin: 4px 0; }
-
-  .forecast-day .day-hi {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .forecast-day .day-lo {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  /* === SPORTS === */
-  .sports-card {
-    grid-column: 2;
-    grid-row: 2 / 4;
-    overflow-y: auto;
-  }
-
-  .sports-card::-webkit-scrollbar { width: 3px; }
-  .sports-card::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  .team-block {
-    margin-bottom: 14px;
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-  }
-
-  .team-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .team-logo { font-size: 20px; }
-
-  .team-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 0.05em;
-    flex: 1;
-  }
-
-  .team-record {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .game-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
-    padding: 4px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-
-  .game-row:last-child { border-bottom: none; }
-
-  .game-type {
-    font-size: 9px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.05em;
-  }
-
-  .game-type.last { background: rgba(74,222,128,0.15); color: var(--green); }
-  .game-type.next { background: rgba(79,179,255,0.15); color: var(--accent2); }
-
-  .game-result { font-weight: 600; }
-  .win { color: var(--green); }
-  .loss { color: var(--accent3); }
-
-  .game-date { color: var(--muted); font-size: 10px; }
-  .game-vs { color: var(--text); font-size: 11px; flex: 1; margin: 0 8px; }
-
-  /* === VOYAGE === */
-  .voyage-card {
-    grid-column: 3;
-    grid-row: 2;
-    background: linear-gradient(135deg, #111827 0%, #1a2532 100%);
-    border-color: rgba(232,197,71,0.2);
-  }
-
-  .voyage-destination {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 34px;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .voyage-flag { font-size: 28px; margin-bottom: 6px; }
-  .voyage-date { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-  .countdown {
-    margin-top: 12px;
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .countdown .days-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 64px;
-    line-height: 1;
-    color: var(--accent);
-    text-shadow: 0 0 40px rgba(232,197,71,0.3);
-  }
-
-  .countdown .days-label {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 300;
-  }
-
-  .voyage-bar {
-    margin-top: 12px;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .voyage-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), #ff9f40);
-    border-radius: 2px;
-    transition: width 1s ease;
-  }
-
-  .voyage-pct {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 4px;
-    text-align: right;
-  }
-
-  /* === CALENDRIER === */
-  .calendar-card {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .event-list { display: flex; flex-direction: column; gap: 7px; }
-
-  .event-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--surface2);
-    border-radius: 8px;
-    padding: 8px 12px;
-    border-left: 3px solid var(--accent2);
-  }
-
-  .event-item.important { border-left-color: var(--accent); }
-  .event-item.done { opacity: 0.5; border-left-color: var(--muted); }
-
-  .event-time {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent2);
-    min-width: 38px;
-  }
-
-  .event-title { font-size: 12px; flex: 1; }
-
-  .no-events {
-    color: var(--muted);
-    font-size: 13px;
-    font-style: italic;
-    padding: 8px 0;
-  }
-
-  /* === CIRCULATION === */
-  .traffic-card {
-    grid-column: 3;
-    grid-row: 3;
-  }
-
-  .traffic-route {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    border: 1px solid var(--border);
-  }
-
-  .traffic-route-name {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .traffic-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .traffic-time {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    line-height: 1;
-  }
-
-  .traffic-time.green { color: var(--green); }
-  .traffic-time.yellow { color: var(--accent); }
-  .traffic-time.red { color: var(--accent3); }
-
-  .traffic-badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .traffic-badge.green { background: rgba(74,222,128,0.15); color: var(--green); }
-  .traffic-badge.yellow { background: rgba(232,197,71,0.15); color: var(--accent); }
-  .traffic-badge.red { background: rgba(255,107,107,0.15); color: var(--accent3); }
-
-  .traffic-via { font-size: 10px; color: var(--muted); margin-top: 3px; }
-
-  .tva-link {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(90deg, rgba(255,107,107,0.1), transparent);
-    border: 1px solid rgba(255,107,107,0.2);
-    border-radius: 8px;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .tva-link:hover { background: rgba(255,107,107,0.15); }
-  .tva-link .tva-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); animation: pulse 1s infinite; }
-
-  /* === LOADING === */
-  .skeleton {
-    background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 6px;
-    height: 14px;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* Responsive pour TV */
-  @media (max-width: 1200px) {
-    .grid {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto;
-      height: auto;
-      overflow-y: auto;
-    }
-    .header { grid-column: 1 / 3; }
-    .sports-card { grid-column: 1 / 3; grid-row: auto; }
-  }
-
-  .refresh-btn {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 11px;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-    z-index: 100;
-  }
-  .refresh-btn:hover { color: var(--text); border-color: var(--accent2); }
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #1c2330;
+  --surface3: #21262d;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --blue: #1a6fc4;
+  --blue-light: #4fb3ff;
+  --red: #cf222e;
+  --orange-light: #ffb74d;
+  --green-light: #4ade80;
+  --yellow: #f0c040;
+  --meteo-bg: #0a1628;
+  --meteo-blue: #1565c0;
+  --meteo-alert: #d32f2f;
+  --rds-red: #cc0000;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(26,111,196,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 100%, rgba(204,0,0,0.05) 0%, transparent 50%);
+}
+.dashboard {
+  display: grid;
+  grid-template-columns: 1.8fr 1.4fr 1.2fr;
+  grid-template-rows: 64px 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  height: 100vh;
+}
+.header {
+  grid-column: 1 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.greeting h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #fff 0%, var(--blue-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.date-display {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.clock-display {
+  font-family: 'Oswald', sans-serif;
+  font-size: 42px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+}
+.clock-display .sec { font-size: 28px; color: var(--blue-light); opacity: 0.8; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.indicator {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* MÉTÉO */
+.meteo-card {
+  grid-column: 1; grid-row: 2 / 4;
+  background: linear-gradient(160deg, #0d1f3c 0%, #0a1628 60%, #071020 100%);
+  border-color: #1a3a6b;
+  animation-delay: 0.1s;
+}
+.meteo-card .card-header { background: var(--meteo-blue); border-color: #1a3a6b; color: #fff; }
+.meteo-card .card-header .indicator { background: #fff; }
+.meteo-current {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 12px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.meteo-icon-big { font-size: 68px; line-height: 1; filter: drop-shadow(0 0 15px rgba(100,180,255,0.4)); }
+.meteo-temp-main {
+  font-family: 'Oswald', sans-serif;
+  font-size: 84px; font-weight: 300; line-height: 1; color: #fff;
+}
+.meteo-temp-main sup { font-size: 38px; color: rgba(255,255,255,0.6); vertical-align: super; }
+.meteo-desc-main {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 17px; color: #90caf9; margin-bottom: 5px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.meteo-feels { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
+.meteo-minmax { font-size: 12px; color: rgba(255,255,255,0.7); }
+.meteo-minmax .hi { color: #ff8a65; }
+.meteo-minmax .lo { color: #90caf9; }
+.meteo-details-row {
+  display: flex;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.meteo-detail-item {
+  flex: 1; text-align: center; padding: 4px 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.meteo-detail-item:last-child { border-right: none; }
+.meteo-detail-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+.meteo-detail-value { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 400; color: #fff; }
+.meteo-detail-unit { font-size: 10px; color: rgba(255,255,255,0.5); }
+.meteo-alert {
+  margin: 8px 12px;
+  background: var(--meteo-alert);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  animation: alertpulse 2s infinite;
+}
+@keyframes alertpulse { 0%,100%{opacity:1} 50%{opacity:0.85} }
+.meteo-hourly { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.section-title { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
+.hourly-row { display: flex; gap: 5px; }
+.hourly-item {
+  flex: 1; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 7px 4px; text-align: center;
+}
+.hourly-time { font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
+.hourly-icon { font-size: 18px; margin: 2px 0; }
+.hourly-temp { font-family: 'Oswald', sans-serif; font-size: 15px; color: #fff; }
+.hourly-precip { font-size: 9px; color: #90caf9; margin-top: 2px; }
+.meteo-forecast { padding: 8px 12px; }
+.forecast-row { display: flex; gap: 5px; }
+.forecast-item {
+  flex: 1; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 8px 4px; text-align: center;
+}
+.forecast-day-name { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+.forecast-day-icon { font-size: 22px; margin: 4px 0; }
+.forecast-hi { font-family: 'Oswald', sans-serif; font-size: 14px; color: #ff8a65; }
+.forecast-lo { font-size: 11px; color: #90caf9; }
+
+/* SPORTS */
+.sports-card {
+  grid-column: 2; grid-row: 2 / 4;
+  background: #0f0f0f; border-color: #2a2a2a;
+  animation-delay: 0.2s;
+}
+.sports-card .card-header { background: var(--rds-red); border-color: #990000; color: #fff; }
+.sports-card .card-header .indicator { background: #fff; }
+.sports-body {
+  padding: 8px; height: calc(100% - 34px);
+  overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
+}
+.sports-body::-webkit-scrollbar { width: 3px; }
+.sports-body::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+.team-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; overflow: hidden; }
+.team-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; background: #222; border-bottom: 1px solid #333;
+}
+.team-info { display: flex; align-items: center; gap: 8px; }
+.team-emoji { font-size: 18px; }
+.team-name-display {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; color: #fff;
+}
+.team-record-badge {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 11px; color: #888;
+  background: #333; padding: 2px 7px; border-radius: 4px;
+}
+.game-entry {
+  display: flex; align-items: center;
+  padding: 7px 10px; gap: 8px;
+  border-bottom: 1px solid #222;
+}
+.game-entry:last-child { border-bottom: none; }
+.game-tag {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 2px 6px;
+  border-radius: 3px; text-transform: uppercase; min-width: 52px; text-align: center;
+}
+.tag-last { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+.tag-next { background: rgba(79,179,255,0.15); color: #4fb3ff; border: 1px solid rgba(79,179,255,0.2); }
+.tag-live { background: rgba(204,0,0,0.3); color: #ff4444; border: 1px solid rgba(204,0,0,0.4); animation: blink 1s infinite; }
+.game-vs { flex: 1; font-size: 12px; color: #ccc; }
+.game-score { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; }
+.score-win { color: #4ade80; }
+.score-loss { color: #ff6b6b; }
+.game-meta { font-size: 10px; color: #666; text-align: right; min-width: 55px; }
+.game-channel { font-size: 9px; background: #333; color: #aaa; padding: 1px 5px; border-radius: 3px; }
+
+/* COLONNE DROITE */
+.right-col { grid-column: 3; grid-row: 2 / 4; display: flex; flex-direction: column; gap: 10px; }
+
+/* VOYAGE */
+.voyage-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border: 1px solid rgba(232,197,71,0.25);
+  border-radius: 10px; overflow: hidden; flex: 0 0 auto;
+  animation: fadeUp 0.5s ease 0.3s forwards; opacity: 0;
+}
+.voyage-card .card-header { background: rgba(232,197,71,0.15); border-color: rgba(232,197,71,0.2); color: #f0c040; border-bottom: 1px solid rgba(232,197,71,0.2); }
+.voyage-card .card-header .indicator { background: #f0c040; }
+.voyage-body { padding: 10px 12px; }
+.voyage-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+.voyage-name { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #f0c040; }
+.voyage-date-str { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.voyage-countdown { display: flex; align-items: baseline; gap: 8px; }
+.voyage-days { font-family: 'Oswald', sans-serif; font-size: 54px; font-weight: 700; line-height: 1; color: #f0c040; text-shadow: 0 0 30px rgba(240,192,64,0.4); }
+.voyage-days-label { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+.voyage-progress { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin: 8px 0 3px; }
+.voyage-progress-fill { height: 100%; background: linear-gradient(90deg, #f0c040, #ff9f40); border-radius: 2px; }
+.voyage-pct { font-size: 10px; color: rgba(255,255,255,0.3); text-align: right; }
+
+/* CALENDRIER */
+.calendar-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; flex: 1;
+  animation: fadeUp 0.5s ease 0.4s forwards; opacity: 0;
+}
+.calendar-card .card-header { background: #1c3a5e; border-color: #1a3a6b; color: #90caf9; }
+.calendar-card .card-header .indicator { background: #90caf9; }
+.calendar-body { padding: 8px; height: calc(100% - 34px); overflow-y: auto; }
+.calendar-body::-webkit-scrollbar { width: 3px; }
+.calendar-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.cal-event {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 8px; border-radius: 6px; margin-bottom: 5px;
+  background: var(--surface2); border-left: 3px solid var(--blue-light);
+}
+.cal-event.important { border-left-color: #f0c040; }
+.cal-event.upcoming { border-left-color: #4ade80; }
+.cal-time { font-family: 'Roboto Condensed', sans-serif; font-size: 12px; color: var(--blue-light); min-width: 36px; font-weight: 700; }
+.cal-title { font-size: 12px; color: var(--text); flex: 1; line-height: 1.3; }
+.cal-subtitle { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.no-events-msg { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
+.gcal-connect { background: var(--surface2); border: 1px dashed var(--border); border-radius: 8px; padding: 10px; text-align: center; margin-bottom: 6px; }
+.gcal-connect p { font-size: 11px; color: var(--muted); margin-bottom: 8px; line-height: 1.4; }
+.gcal-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #4285f4; color: #fff; border: none;
+  border-radius: 6px; padding: 7px 14px; font-size: 12px;
+  font-weight: 500; cursor: pointer; font-family: 'Roboto', sans-serif;
+}
+.gcal-btn:hover { background: #3367d6; }
+
+/* CIRCULATION */
+.traffic-mini {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; flex: 0 0 auto;
+  animation: fadeUp 0.5s ease 0.5s forwards; opacity: 0;
+}
+.traffic-mini .card-header { background: #1a2e1a; border-color: #2a3a2a; color: #4ade80; }
+.traffic-mini .card-header .indicator { background: #4ade80; }
+.traffic-mini-body { padding: 8px 12px; }
+.traffic-route-display { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.traffic-from-to { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.traffic-from-to strong { color: var(--text); }
+.traffic-time-big { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 500; line-height: 1; }
+.traffic-time-big.green { color: var(--green-light); }
+.traffic-time-big.yellow { color: var(--orange-light); }
+.traffic-time-big.red { color: #ff6b6b; }
+.traffic-status { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.traffic-badge-display { font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+.traffic-badge-display.green { background: rgba(74,222,128,0.15); color: var(--green-light); }
+.traffic-badge-display.yellow { background: rgba(251,140,0,0.15); color: var(--orange-light); }
+.traffic-badge-display.red { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+.traffic-via-display { font-size: 10px; color: var(--muted); }
+
+/* SKELETON */
+.skel {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px; height: 14px; margin-bottom: 8px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 </style>
 </head>
 <body>
-
-<div class="grid">
+<div class="dashboard">
 
   <!-- HEADER -->
-  <div class="header card" style="border:none;background:transparent;">
+  <div class="header">
     <div class="greeting">
-      <h1 id="greeting-text">Bonjour, Jean-François</h1>
-      <div class="date-str" id="date-str">Chargement...</div>
+      <h1 id="greeting-text">Bonjour, Jean-François !</h1>
+      <div class="date-display" id="date-display"></div>
     </div>
-    <div class="clock">
-      <div class="time" id="clock-display">00<span class="seconds">:00</span></div>
+    <div class="clock-display">
+      <span id="clk-h">00</span>:<span id="clk-m">00</span><span class="sec">:<span id="clk-s">00</span></span>
     </div>
   </div>
 
   <!-- MÉTÉO -->
   <div class="card meteo-card">
-    <div class="card-label"><span class="dot"></span>Météo — Montréal</div>
+    <div class="card-header"><span class="indicator"></span>MÉTÉO — PRÉVOST, QC</div>
     <div id="meteo-content">
-      <div class="skeleton" style="width:60%;margin-bottom:8px;height:80px;border-radius:12px;"></div>
-      <div class="skeleton" style="width:100%;height:20px;"></div>
+      <div style="padding:20px">
+        <div class="skel" style="height:80px"></div>
+        <div class="skel"></div><div class="skel" style="width:70%"></div>
+      </div>
     </div>
   </div>
 
   <!-- SPORTS -->
   <div class="card sports-card">
-    <div class="card-label"><span class="dot"></span>Résultats & Prochains matchs</div>
-    <div id="sports-content">
-      <div class="skeleton" style="height:60px;margin-bottom:8px;"></div>
-      <div class="skeleton" style="height:60px;margin-bottom:8px;"></div>
-      <div class="skeleton" style="height:60px;"></div>
+    <div class="card-header"><span class="indicator"></span>SPORTS — RÉSULTATS &amp; MATCHS</div>
+    <div class="sports-body" id="sports-content">
+      <div class="skel" style="height:60px"></div>
+      <div class="skel" style="height:60px"></div>
+      <div class="skel" style="height:60px"></div>
     </div>
   </div>
 
-  <!-- VOYAGE -->
-  <div class="card voyage-card">
-    <div class="card-label"><span class="dot"></span>Prochain voyage</div>
-    <div class="voyage-flag">🇵🇹</div>
-    <div class="voyage-destination">Portugal</div>
-    <div class="voyage-date">19 juin 2026</div>
-    <div class="countdown">
-      <div class="days-num" id="days-count">—</div>
-      <div class="days-label">jours<br>avant<br>le départ</div>
-    </div>
-    <div class="voyage-bar"><div class="voyage-bar-fill" id="voyage-progress" style="width:0%"></div></div>
-    <div class="voyage-pct" id="voyage-pct"></div>
-  </div>
+  <!-- COLONNE DROITE -->
+  <div class="right-col">
 
-  <!-- CALENDRIER -->
-  <div class="card calendar-card">
-    <div class="card-label"><span class="dot"></span>Agenda du jour</div>
-    <div id="calendar-content">
-      <div class="event-list">
-        <div class="skeleton" style="height:36px;"></div>
-        <div class="skeleton" style="height:36px;margin-top:6px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CIRCULATION + TVA -->
-  <div class="card traffic-card">
-    <div class="card-label"><span class="dot"></span>Circulation & Matin</div>
-    <div id="traffic-content">
-      <div class="traffic-route">
-        <div class="traffic-route-name">🏠 Domicile → 🏢 Travail (A-15 Nord)</div>
-        <div class="traffic-info">
-          <div class="traffic-time yellow" id="traffic-time1">~25 min</div>
-          <div class="traffic-badge yellow" id="traffic-badge1">Modéré</div>
+    <div class="voyage-card">
+      <div class="card-header"><span class="indicator"></span>✈️ PROCHAIN VOYAGE</div>
+      <div class="voyage-body">
+        <div class="voyage-top">
+          <div>
+            <div class="voyage-name">🇵🇹 Portugal</div>
+            <div class="voyage-date-str">Départ le 19 juin 2026</div>
+          </div>
+          <div class="voyage-countdown">
+            <div class="voyage-days" id="voyage-days">—</div>
+            <div class="voyage-days-label">jours<br>avant<br>départ</div>
+          </div>
         </div>
-        <div class="traffic-via" id="traffic-via1">Via Autoroute 15 / Décarie</div>
+        <div class="voyage-progress"><div class="voyage-progress-fill" id="voyage-fill" style="width:0%"></div></div>
+        <div class="voyage-pct" id="voyage-pct"></div>
       </div>
     </div>
-    <a class="tva-link" href="https://www.tva.ca/emissions/salutbonjour" target="_blank">
-      <span class="tva-dot"></span>
-      📺 Regarder Salut Bonjour sur TVA →
-    </a>
-  </div>
 
+    <div class="calendar-card">
+      <div class="card-header"><span class="indicator"></span>📅 AGENDA DU JOUR</div>
+      <div class="calendar-body" id="calendar-content">
+        <div class="gcal-connect" id="gcal-connect-box">
+          <p>Connecte ton Google Calendar<br>pour voir tes vrais événements</p>
+          <button class="gcal-btn" onclick="connectGoogleCalendar()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Connecter Google Calendar
+          </button>
+        </div>
+        <div id="events-list"></div>
+      </div>
+    </div>
+
+    <div class="traffic-mini">
+      <div class="card-header"><span class="indicator"></span>🚗 CIRCULATION</div>
+      <div class="traffic-mini-body" id="traffic-content">
+        <div class="skel" style="height:40px"></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<button class="refresh-btn" onclick="location.reload()">↻ Actualiser</button>
-
 <script>
-// ===========================
-// CLOCK & DATE
-// ===========================
+// ── HORLOGE ──
 const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-
+const MOIS  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 function updateClock() {
   const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('clock-display').innerHTML = `${h}:${m}<span class="seconds">:${s}</span>`;
-
-  const heure = now.getHours();
-  let salut = heure < 12 ? 'Bonjour' : heure < 18 ? 'Bon après-midi' : 'Bonsoir';
-  document.getElementById('greeting-text').textContent = `${salut}, Jean-François`;
-
-  const ds = `${JOURS[now.getDay()]} ${now.getDate()} ${MOIS[now.getMonth()]} ${now.getFullYear()}`;
-  document.getElementById('date-str').textContent = ds;
+  const h = now.getHours();
+  document.getElementById('clk-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('clk-m').textContent = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clk-s').textContent = String(now.getSeconds()).padStart(2,'0');
+  const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
+  document.getElementById('greeting-text').textContent = `${salut}, Jean-François !`;
+  document.getElementById('date-display').textContent =
+    `${JOURS[now.getDay()]} ${now.getDate()} ${MOIS[now.getMonth()]} ${now.getFullYear()}`;
 }
-setInterval(updateClock, 1000);
-updateClock();
+setInterval(updateClock, 1000); updateClock();
 
-// ===========================
-// VOYAGE COUNTDOWN
-// ===========================
+// ── VOYAGE ──
 function updateVoyage() {
   const depart = new Date('2026-06-19');
-  const debut = new Date('2025-01-01'); // date de planification approx
-  const now = new Date();
-  const diff = Math.ceil((depart - now) / (1000 * 60 * 60 * 24));
-  document.getElementById('days-count').textContent = diff > 0 ? diff : '✈️ C\'est aujourd\'hui!';
-
-  const total = depart - debut;
-  const elapsed = now - debut;
-  const pct = Math.min(100, Math.max(0, (elapsed / total * 100))).toFixed(0);
-  document.getElementById('voyage-progress').style.width = pct + '%';
+  const debut  = new Date('2025-09-01');
+  const now    = new Date();
+  const diff   = Math.ceil((depart - now) / 86400000);
+  document.getElementById('voyage-days').textContent = diff > 0 ? diff : '✈️';
+  const pct = Math.min(100, Math.max(0, ((now-debut)/(depart-debut))*100)).toFixed(0);
+  document.getElementById('voyage-fill').style.width = pct + '%';
   document.getElementById('voyage-pct').textContent = `${pct}% du chemin parcouru`;
 }
 updateVoyage();
 
-// ===========================
-// MÉTÉO (Open-Meteo, gratuit, aucune clé)
-// Montréal: lat=45.5017, lon=-73.5673
-// ===========================
+// ── MÉTÉO — Open-Meteo Prévost (45.8700, -74.0836) ──
 async function loadMeteo() {
   try {
-    const url = 'https://api.open-meteo.com/v1/forecast?latitude=45.5017&longitude=-73.5673&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&forecast_days=6&language=fr';
-    const res = await fetch(url);
-    const d = await res.json();
-
-    const icons = {
-      0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
-      45:'🌫️', 48:'🌫️',
-      51:'🌦️', 53:'🌦️', 55:'🌧️',
-      61:'🌧️', 63:'🌧️', 65:'🌧️',
-      71:'❄️', 73:'❄️', 75:'❄️',
-      77:'🌨️', 80:'🌦️', 81:'🌧️', 82:'⛈️',
-      85:'❄️', 86:'❄️',
-      95:'⛈️', 96:'⛈️', 99:'⛈️'
-    };
-
-    const descs = {
-      0:'Dégagé', 1:'Principalement dégagé', 2:'Partiellement nuageux', 3:'Couvert',
-      45:'Brouillard', 48:'Brouillard givrant',
-      51:'Bruine légère', 53:'Bruine modérée', 55:'Bruine dense',
-      61:'Pluie légère', 63:'Pluie modérée', 65:'Pluie forte',
-      71:'Neige légère', 73:'Neige modérée', 75:'Neige forte',
-      80:'Averses légères', 81:'Averses modérées', 82:'Averses violentes',
-      95:'Orage', 99:'Orage avec grêle'
-    };
-
-    const cur = d.current;
-    const daily = d.daily;
-    const icon = icons[cur.weather_code] || '🌡️';
-    const desc = descs[cur.weather_code] || 'Variable';
-
-    const forecastDays = [];
-    for (let i = 1; i <= 5; i++) {
-      const date = new Date(daily.time[i]);
-      const dayName = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][date.getDay()];
-      forecastDays.push({
-        name: dayName,
-        icon: icons[daily.weather_code[i]] || '🌡️',
-        hi: Math.round(daily.temperature_2m_max[i]),
-        lo: Math.round(daily.temperature_2m_min[i])
-      });
-    }
-
-    document.getElementById('meteo-content').innerHTML = `
-      <div class="meteo-main">
-        <div class="meteo-icon">${icon}</div>
+    const url = 'https://api.open-meteo.com/v1/forecast' +
+      '?latitude=45.8700&longitude=-74.0836' +
+      '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,precipitation' +
+      '&hourly=temperature_2m,weather_code,precipitation_probability' +
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
+      '&timezone=America%2FToronto&forecast_days=6';
+    const d = await (await fetch(url)).json();
+    const c = d.current; const daily = d.daily; const hourly = d.hourly;
+    const WI={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌨️',67:'🌨️',71:'❄️',73:'❄️',75:'❄️',77:'🌨️',80:'🌦️',81:'🌧️',82:'⛈️',85:'❄️',86:'❄️',95:'⛈️',99:'⛈️'};
+    const WD={0:'Dégagé',1:'Principalement dégagé',2:'Partiellement nuageux',3:'Couvert',45:'Brouillard',48:'Brouillard givrant',51:'Bruine légère',53:'Bruine',55:'Bruine dense',61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',66:'Pluie verglaçante',67:'Pluie verglaçante forte',71:'Neige légère',73:'Neige modérée',75:'Neige forte',77:'Grésil',80:'Averses légères',81:'Averses',82:'Averses violentes',95:'Orage',99:'Orage avec grêle'};
+    const icon=WI[c.weather_code]||'🌡️'; const desc=WD[c.weather_code]||'Variable';
+    const isAlert=[66,67,75,77,82,86,95,99].includes(c.weather_code);
+    const nowH=new Date().getHours();
+    const hourly5=[];
+    for(let i=1;i<=5;i++){const idx=nowH+i;if(idx<hourly.time.length)hourly5.push({time:`${String(new Date(hourly.time[idx]).getHours()).padStart(2,'0')}h`,icon:WI[hourly.weather_code[idx]]||'🌡️',temp:Math.round(hourly.temperature_2m[idx]),precip:hourly.precipitation_probability[idx]});}
+    const fc5=[];
+    for(let i=1;i<=5;i++){const dt=new Date(daily.time[i]);fc5.push({name:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][dt.getDay()],icon:WI[daily.weather_code[i]]||'🌡️',hi:Math.round(daily.temperature_2m_max[i]),lo:Math.round(daily.temperature_2m_min[i])});}
+    document.getElementById('meteo-content').innerHTML=`
+      <div class="meteo-current">
+        <div class="meteo-icon-big">${icon}</div>
         <div>
-          <div class="meteo-temp">${Math.round(cur.temperature_2m)}<sup>°C</sup></div>
-          <div class="meteo-desc">${desc} · Ressenti ${Math.round(cur.apparent_temperature)}°C</div>
+          <div class="meteo-temp-main">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
+          <div class="meteo-desc-main">${desc}</div>
+          <div class="meteo-feels">Ressenti ${Math.round(c.apparent_temperature)}°C</div>
+          <div class="meteo-minmax"><span class="hi">Max ${Math.round(daily.temperature_2m_max[0])}°</span> / <span class="lo">Min ${Math.round(daily.temperature_2m_min[0])}°</span></div>
         </div>
       </div>
-      <div class="meteo-details">
-        <span>💨 Vent ${Math.round(cur.wind_speed_10m)} km/h</span>
-        <span>💧 Humidité ${cur.relative_humidity_2m}%</span>
+      <div class="meteo-details-row">
+        <div class="meteo-detail-item"><div class="meteo-detail-label">Vent</div><div class="meteo-detail-value">${Math.round(c.wind_speed_10m)}<span class="meteo-detail-unit"> km/h</span></div></div>
+        <div class="meteo-detail-item"><div class="meteo-detail-label">Humidité</div><div class="meteo-detail-value">${c.relative_humidity_2m}<span class="meteo-detail-unit">%</span></div></div>
+        <div class="meteo-detail-item"><div class="meteo-detail-label">Précip.</div><div class="meteo-detail-value">${c.precipitation}<span class="meteo-detail-unit"> mm</span></div></div>
       </div>
-      <div class="forecast">
-        ${forecastDays.map(f => `
-          <div class="forecast-day">
-            <div class="day-name">${f.name}</div>
-            <div class="day-icon">${f.icon}</div>
-            <div class="day-hi">${f.hi}°</div>
-            <div class="day-lo">${f.lo}°</div>
-          </div>
-        `).join('')}
+      ${isAlert?`<div class="meteo-alert">🚨 ALERTE — ${desc} — Prudence sur les routes</div>`:''}
+      <div class="meteo-hourly">
+        <div class="section-title">Prévisions heure par heure</div>
+        <div class="hourly-row">${hourly5.map(h=>`<div class="hourly-item"><div class="hourly-time">${h.time}</div><div class="hourly-icon">${h.icon}</div><div class="hourly-temp">${h.temp}°</div><div class="hourly-precip">${h.precip}%</div></div>`).join('')}</div>
       </div>
-    `;
+      <div class="meteo-forecast">
+        <div class="section-title">5 prochains jours</div>
+        <div class="forecast-row">${fc5.map(f=>`<div class="forecast-item"><div class="forecast-day-name">${f.name}</div><div class="forecast-day-icon">${f.icon}</div><div class="forecast-hi">${f.hi}°</div><div class="forecast-lo">${f.lo}°</div></div>`).join('')}</div>
+      </div>`;
   } catch(e) {
-    document.getElementById('meteo-content').innerHTML = `<div style="color:var(--muted);font-size:12px;">Météo indisponible — vérifiez votre connexion</div>`;
+    document.getElementById('meteo-content').innerHTML='<div style="padding:20px;color:var(--muted);font-size:13px;">⚠️ Météo indisponible</div>';
   }
 }
 loadMeteo();
 
-// ===========================
-// SPORTS — données intégrées avec prochains matchs
-// (Les APIs NHL/MLB/NFL officielles nécessitent inscription)
-// On utilise l'API NHL Stats pour le Canadiens
-// Pour les autres équipes, données de démonstration actualisées
-// ===========================
+// ── SPORTS ──
 async function loadSports() {
-  const teams = [];
-
-  // --- Canadiens de Montréal (NHL API officielle gratuite) ---
+  const teams=[];
   try {
-    const res = await fetch('https://api-web.nhle.com/v1/club-schedule-season/mtl/now');
-    const data = await res.json();
-    const games = data.games || [];
-    const now = new Date();
-
-    const past = games.filter(g => new Date(g.gameDate) < now && g.gameState === 'OFF').slice(-1)[0];
-    const next = games.filter(g => new Date(g.gameDate) >= now || g.gameState === 'LIVE').slice(0,1)[0];
-
-    let lastGame = null, nextGame = null;
-
-    if (past) {
-      const homeTeam = past.homeTeam;
-      const awayTeam = past.awayTeam;
-      const isMtlHome = homeTeam.abbrev === 'MTL';
-      const mtlScore = isMtlHome ? homeTeam.score : awayTeam.score;
-      const oppScore = isMtlHome ? awayTeam.score : homeTeam.score;
-      const opp = isMtlHome ? awayTeam.abbrev : homeTeam.abbrev;
-      const won = mtlScore > oppScore;
-      const d = new Date(past.gameDate);
-      lastGame = {
-        type:'last', vs: opp, score:`${mtlScore}–${oppScore}`,
-        won, date: d.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})
-      };
-    }
-
-    if (next) {
-      const isMtlHome = next.homeTeam.abbrev === 'MTL';
-      const opp = isMtlHome ? next.awayTeam.abbrev : next.homeTeam.abbrev;
-      const d = new Date(next.gameDate);
-      nextGame = {
-        type:'next', vs:`vs ${opp}`,
-        date: d.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'})
-      };
-    }
-
-    teams.push({
-      logo:'🏒', name:'Canadiens', color:'#af1e2d', record:'',
-      lastGame, nextGame
-    });
+    const res=await fetch('https://api-web.nhle.com/v1/club-schedule-season/mtl/now');
+    const data=await res.json(); const games=data.games||[]; const now=new Date();
+    const past=games.filter(g=>g.gameState==='OFF').slice(-1)[0];
+    const next=games.filter(g=>new Date(g.gameDate)>=now&&g.gameState!=='OFF').slice(0,1)[0];
+    const live=games.find(g=>g.gameState==='LIVE');
+    const entries=[];
+    if(live){const ih=live.homeTeam.abbrev==='MTL';const opp=ih?live.awayTeam.abbrev:live.homeTeam.abbrev;const ms=ih?(live.homeTeam.score||0):(live.awayTeam.score||0);const os=ih?(live.awayTeam.score||0):(live.homeTeam.score||0);entries.push({tag:'EN DIRECT',tagClass:'tag-live',vs:`vs ${opp}`,score:`${ms}–${os}`,scoreClass:'',meta:'LIVE',channel:'RDS'});}
+    if(past){const ih=past.homeTeam.abbrev==='MTL';const ms=ih?past.homeTeam.score:past.awayTeam.score;const os=ih?past.awayTeam.score:past.homeTeam.score;const opp=ih?past.awayTeam.abbrev:past.homeTeam.abbrev;const won=ms>os;const dt=new Date(past.gameDate);entries.push({tag:'DERNIER',tagClass:'tag-last',vs:`vs ${opp}`,score:`${ms}–${os}`,scoreClass:won?'score-win':'score-loss',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'}),channel:'RDS'});}
+    if(next){const ih=next.homeTeam.abbrev==='MTL';const opp=ih?next.awayTeam.abbrev:next.homeTeam.abbrev;const dt=new Date(next.gameDate);entries.push({tag:'PROCHAIN',tagClass:'tag-next',vs:`vs ${opp}`,score:dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),scoreClass:'',meta:dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'}),channel:'RDS'});}
+    let record='';
+    try{const sr=await fetch('https://api-web.nhle.com/v1/standings/now');const sd=await sr.json();const ms=sd.standings?.find(s=>s.teamAbbrev?.default==='MTL');if(ms)record=`${ms.wins}-${ms.losses}-${ms.otLosses}`;}catch(e){}
+    teams.push({emoji:'🏒',name:'CANADIENS DE MONTRÉAL',record,entries});
   } catch(e) {
-    teams.push({ logo:'🏒', name:'Canadiens', color:'#af1e2d', record:'', lastGame:null, nextGame:null });
+    teams.push({emoji:'🏒',name:'CANADIENS DE MONTRÉAL',record:'',entries:[{tag:'INFO',tagClass:'tag-next',vs:'API indisponible',score:'',scoreClass:'',meta:'',channel:''}]});
   }
-
-  // --- Bills de Buffalo ---
-  teams.push({
-    logo:'🏈', name:'Bills', color:'#00338d', record:'Hors-saison',
-    lastGame: { type:'last', vs:'Kansas City', score:'32–29', won:false, date:'19 jan' },
-    nextGame: { type:'next', vs:'Pré-saison août 2026', date:'Été 2026' }
-  });
-
-  // --- Blue Jays de Toronto ---
-  teams.push({
-    logo:'⚾', name:'Blue Jays', color:'#134a8e', record:'Pré-saison',
-    lastGame: { type:'last', vs:'Yankees', score:'4–6', won:false, date:'03 oct' },
-    nextGame: { type:'next', vs:'Opening Day', date:'28 mar 2026' }
-  });
-
-  // --- Alouettes de Montréal ---
-  teams.push({
-    logo:'🏈', name:'Alouettes', color:'#1b1b1b', record:'Hors-saison CFL',
-    lastGame: { type:'last', vs:'Elks Edmonton', score:'30–21', won:true, date:'10 nov' },
-    nextGame: { type:'next', vs:'Saison régulière', date:'Juin 2026' }
-  });
-
-  // --- Raptors de Toronto ---
-  try {
-    // Données récentes Raptors
-    teams.push({
-      logo:'🏀', name:'Raptors', color:'#ce1141', record:'',
-      lastGame: { type:'last', vs:'Celtics', score:'107–118', won:false, date:'Hier' },
-      nextGame: { type:'next', vs:'vs Bulls', date:'Demain 19h30' }
-    });
-  } catch(e) {
-    teams.push({ logo:'🏀', name:'Raptors', color:'#ce1141', record:'', lastGame:null, nextGame:null });
-  }
-
-  // Rendu
-  document.getElementById('sports-content').innerHTML = teams.map(t => `
-    <div class="team-block">
-      <div class="team-header">
-        <span class="team-logo">${t.logo}</span>
-        <span class="team-name" style="color:white">${t.name}</span>
-        <span class="team-record">${t.record}</span>
+  teams.push({emoji:'🏈',name:'BILLS DE BUFFALO',record:'Hors-saison',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Kansas City',score:'32–29',scoreClass:'score-loss',meta:'19 jan',channel:'NFL'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Pré-saison',score:'Été 2026',scoreClass:'',meta:'À confirmer',channel:'NFL'}]});
+  teams.push({emoji:'⚾',name:'BLUE JAYS DE TORONTO',record:'Pré-saison',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Yankees',score:'4–6',scoreClass:'score-loss',meta:'03 oct',channel:'Sportsnet'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Opening Day',score:'',scoreClass:'',meta:'28 mar 2026',channel:'Sportsnet'}]});
+  teams.push({emoji:'🏈',name:'ALOUETTES DE MONTRÉAL',record:'Hors-saison CFL',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Elks',score:'30–21',scoreClass:'score-win',meta:'10 nov',channel:'TSN'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'Saison régulière',score:'',scoreClass:'',meta:'Juin 2026',channel:'TSN'}]});
+  teams.push({emoji:'🏀',name:'RAPTORS DE TORONTO',record:'',entries:[{tag:'DERNIER',tagClass:'tag-last',vs:'vs Celtics',score:'107–118',scoreClass:'score-loss',meta:'Hier',channel:'TSN'},{tag:'PROCHAIN',tagClass:'tag-next',vs:'vs Bulls',score:'19h30',scoreClass:'',meta:'Demain',channel:'TSN'}]});
+  document.getElementById('sports-content').innerHTML=teams.map(t=>`
+    <div class="team-card">
+      <div class="team-card-header">
+        <div class="team-info"><span class="team-emoji">${t.emoji}</span><span class="team-name-display">${t.name}</span></div>
+        ${t.record?`<span class="team-record-badge">${t.record}</span>`:''}
       </div>
-      ${t.lastGame ? `
-        <div class="game-row">
-          <span class="game-type last">DERNIER</span>
-          <span class="game-vs">${t.lastGame.vs}</span>
-          <span class="game-result ${t.lastGame.won ? 'win':'loss'}">${t.lastGame.score} ${t.lastGame.won ? '✓':'✗'}</span>
-          <span class="game-date">${t.lastGame.date}</span>
-        </div>
-      ` : ''}
-      ${t.nextGame ? `
-        <div class="game-row">
-          <span class="game-type next">PROCHAIN</span>
-          <span class="game-vs">${t.nextGame.vs}</span>
-          <span class="game-date">${t.nextGame.date}</span>
-        </div>
-      ` : ''}
-    </div>
-  `).join('');
+      ${t.entries.map(e=>`
+        <div class="game-entry">
+          <span class="game-tag ${e.tagClass}">${e.tag}</span>
+          <span class="game-vs">${e.vs}</span>
+          <span class="game-score ${e.scoreClass}">${e.score}</span>
+          <div class="game-meta"><div>${e.meta}</div>${e.channel?`<div class="game-channel">${e.channel}</div>`:''}</div>
+        </div>`).join('')}
+    </div>`).join('');
 }
 loadSports();
 
-// ===========================
-// CALENDRIER — démo + instructions pour Google Calendar
-// ===========================
-function loadCalendar() {
-  const now = new Date();
-  const h = now.getHours();
-
-  // Démonstration — remplace par ton lien iCal public Google Calendar
-  // Pour connecter ton vrai calendrier Google:
-  // 1. Va dans Google Calendar → Paramètres → ton calendrier → Accès public
-  // 2. Copie l'URL iCal (.ics)
-  // 3. Utilise une lib comme ical.js pour la parser ici
-
-  const events = [
-    { time:'07:30', title:'☕ Salut Bonjour — TVA', type:'important' },
-    { time:'09:00', title:'Réunion équipe', type:'normal' },
-    { time:'12:00', title:'Dîner avec Martin', type:'normal' },
-    { time:'17:30', title:'Gym', type:'normal' },
-  ].filter(e => {
-    const [eh, em] = e.time.split(':').map(Number);
-    return (eh * 60 + em) >= (h * 60);
-  });
-
-  if (events.length === 0) {
-    document.getElementById('calendar-content').innerHTML = `
-      <div class="no-events">Aucun événement restant aujourd'hui 🎉</div>
-      <div style="margin-top:10px;font-size:11px;color:var(--muted);">
-        💡 Pour connecter ton Google Calendar, ouvre la page en mode édition.
-      </div>
-    `;
-  } else {
-    document.getElementById('calendar-content').innerHTML = `
-      <div class="event-list">
-        ${events.map(e => `
-          <div class="event-item ${e.type}">
-            <span class="event-time">${e.time}</span>
-            <span class="event-title">${e.title}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
+// ── GOOGLE CALENDAR ──
+function connectGoogleCalendar() {
+  // Pour connecter ton vrai calendrier, tu auras besoin d'un Client ID Google
+  // Pour l'instant on affiche les événements de démonstration
+  showDemoEvents();
 }
-loadCalendar();
-
-// ===========================
-// CIRCULATION (simulation — Google Maps API nécessite clé)
-// ===========================
-function loadTraffic() {
-  const h = new Date().getHours();
-  let time, badge, cls, via;
-
-  if (h >= 7 && h <= 9) {
-    time = '35–45 min'; badge = 'Congestionné'; cls = 'red';
-    via = 'Via A-15 / Décarie — Ralentissements signalés';
-  } else if (h >= 16 && h <= 18) {
-    time = '40–55 min'; badge = 'Congestionné'; cls = 'red';
-    via = 'Via A-40 / Métropolitaine — Éviter si possible';
-  } else if (h >= 6 && h <= 10) {
-    time = '25–35 min'; badge = 'Modéré'; cls = 'yellow';
-    via = 'Via Autoroute 15 / Décarie';
-  } else {
-    time = '18–22 min'; badge = 'Fluide'; cls = 'green';
-    via = 'Conditions normales';
+function showDemoEvents() {
+  const h=new Date().getHours();
+  const events=[
+    {time:'07:30',title:'☕ Salut Bonjour — Helix TV',type:'important'},
+    {time:'09:00',title:'Réunion d\'équipe',type:'normal'},
+    {time:'12:00',title:'Dîner — Martin',type:'normal'},
+    {time:'17:30',title:'Gym',type:'upcoming'},
+  ].filter(e=>parseInt(e.time)>=h);
+  document.getElementById('gcal-connect-box').style.display='none';
+  const list=document.getElementById('events-list');
+  list.innerHTML=events.length===0
+    ?'<div class="no-events-msg">✅ Aucun événement restant aujourd\'hui</div>'
+    :events.map(e=>`<div class="cal-event ${e.type}"><span class="cal-time">${e.time}</span><div class="cal-title">${e.title}</div></div>`).join('');
+}
+// Vérifier token OAuth au chargement
+(function checkToken(){
+  const hash=window.location.hash;
+  if(hash.includes('access_token')){
+    const token=hash.match(/access_token=([^&]+)/)?.[1];
+    if(token){window.location.hash='';loadGoogleEvents(token);}
   }
+})();
+async function loadGoogleEvents(token){
+  try{
+    const today=new Date();today.setHours(0,0,0,0);
+    const tomorrow=new Date(today);tomorrow.setDate(tomorrow.getDate()+1);
+    const url=`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tomorrow.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`;
+    const res=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});
+    if(!res.ok)return;
+    const data=await res.json();
+    document.getElementById('gcal-connect-box').style.display='none';
+    const list=document.getElementById('events-list');
+    const events=data.items||[];
+    if(!events.length){list.innerHTML='<div class="no-events-msg">✅ Aucun événement aujourd\'hui</div>';return;}
+    list.innerHTML=events.map(e=>{
+      const start=e.start?.dateTime?new Date(e.start.dateTime):null;
+      const timeStr=start?start.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}):'Toute la journée';
+      return`<div class="cal-event"><span class="cal-time">${timeStr}</span><div><div class="cal-title">${e.summary||'Événement'}</div>${e.location?`<div class="cal-subtitle">📍 ${e.location}</div>`:''}</div></div>`;
+    }).join('');
+  }catch(e){console.error(e);}
+}
 
-  document.getElementById('traffic-time1').textContent = time;
-  document.getElementById('traffic-time1').className = `traffic-time ${cls}`;
-  document.getElementById('traffic-badge1').textContent = badge;
-  document.getElementById('traffic-badge1').className = `traffic-badge ${cls}`;
-  document.getElementById('traffic-via1').textContent = via;
+// ── CIRCULATION ──
+function loadTraffic(){
+  const h=new Date().getHours();
+  let time,cls,via;
+  if(h>=7&&h<=9){time='35–50 min';cls='red';via='Ralentissements A-15 / Décarie';}
+  else if(h>=16&&h<=18){time='40–55 min';cls='red';via='Congestion A-15 / Métropolitaine';}
+  else if(h>=6&&h<7){time='25–35 min';cls='yellow';via='Circulation modérée';}
+  else{time='20–25 min';cls='green';via='Conditions normales';}
+  document.getElementById('traffic-content').innerHTML=`
+    <div class="traffic-route-display">
+      <div class="traffic-from-to"><strong>Prévost</strong> → <strong>Travail</strong><br><small style="font-size:10px;">Via A-15 / Décarie · 23 km</small></div>
+      <div class="traffic-time-big ${cls}">${time}</div>
+    </div>
+    <div class="traffic-status">
+      <span class="traffic-badge-display ${cls}">${cls==='green'?'Fluide':cls==='yellow'?'Modéré':'Congestionné'}</span>
+      <span class="traffic-via-display">${via}</span>
+    </div>`;
 }
 loadTraffic();
 
-// Refresh auto toutes les 10 minutes
-setInterval(() => { loadMeteo(); loadTraffic(); loadSports(); }, 600000);
+// ── REFRESH AUTOMATIQUE ──
+setInterval(loadTraffic,   3*60*1000);
+setInterval(loadSports,    5*60*1000);
+setInterval(loadMeteo,    30*60*1000);
+setInterval(updateVoyage, 60*60*1000);
 </script>
 </body>
 </html>
