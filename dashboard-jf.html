@@ -25,37 +25,39 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .clock{font-family:'Oswald',sans-serif;font-size:44px;font-weight:300;letter-spacing:.06em;}
 .clock .sec{font-size:28px;color:var(--blue-light);opacity:.8;}
 
-/* ═══ SCORES BAR — alternance par équipe ═══ */
-.scores-bar{display:flex;align-items:stretch;margin:5px 8px;background:#111;border:1px solid #222;border-radius:8px;overflow:hidden;flex-shrink:0;height:48px;}
+/* ═══ SCORES BAR ═══ */
+.scores-bar{display:flex;align-items:stretch;margin:5px 8px;background:#111;border:1px solid #222;border-radius:8px;overflow:hidden;flex-shrink:0;height:52px;}
 .scores-label{background:var(--red);color:#fff;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;padding:0 12px;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;}
 .scores-items{display:flex;align-items:stretch;flex:1;overflow:hidden;}
 
-/* Chaque slot d'équipe */
 .score-slot{flex:1;border-right:1px solid #1e1e1e;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .score-slot:last-child{border-right:none;}
 
-/* Les 3 états qui s'alternent */
-.slot-state{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;gap:7px;padding:0 10px;opacity:0;transition:opacity .6s ease;pointer-events:none;}
+.slot-state{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;padding:0 8px;opacity:0;transition:opacity .6s ease;}
 .slot-state.visible{opacity:1;}
 
-.ss-sport{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:.08em;font-family:'Roboto Condensed',sans-serif;flex-shrink:0;min-width:28px;}
-.ss-tag{font-size:8px;font-family:'Roboto Condensed',sans-serif;font-weight:700;letter-spacing:.08em;padding:2px 5px;border-radius:3px;text-transform:uppercase;flex-shrink:0;}
+/* Logo équipe */
+.ss-logo{width:32px;height:32px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));}
+
+.ss-info{display:flex;flex-direction:column;flex:1;min-width:0;}
+.ss-top{display:flex;align-items:center;gap:5px;}
+.ss-tag{font-size:8px;font-family:'Roboto Condensed',sans-serif;font-weight:700;letter-spacing:.08em;padding:1px 4px;border-radius:2px;text-transform:uppercase;flex-shrink:0;}
 .tag-last2{background:rgba(139,148,158,.12);color:#8b949e;border:1px solid rgba(139,148,158,.2);}
 .tag-last1{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
 .tag-next{background:rgba(79,179,255,.15);color:#4fb3ff;border:1px solid rgba(79,179,255,.2);}
 .tag-live{background:rgba(204,0,0,.3);color:#ff4444;border:1px solid rgba(204,0,0,.4);animation:blink 1s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-.ss-vs{font-family:'Roboto Condensed',sans-serif;font-size:12px;color:#bbb;white-space:nowrap;flex:1;overflow:hidden;text-overflow:ellipsis;}
-.ss-score{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;white-space:nowrap;flex-shrink:0;}
+.ss-vs{font-family:'Roboto Condensed',sans-serif;font-size:11px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+.ss-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:2px;}
+.ss-score{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;line-height:1;}
 .ss-score.win{color:var(--green-light);}
 .ss-score.loss{color:#ff6b6b;}
-.ss-score.next{color:var(--blue-light);font-size:13px;}
-.ss-meta{font-size:9px;color:#444;white-space:nowrap;flex-shrink:0;font-family:'Roboto Condensed',sans-serif;}
+.ss-score.next{color:var(--blue-light);font-size:14px;}
+.ss-meta{font-size:9px;color:#444;font-family:'Roboto Condensed',sans-serif;white-space:nowrap;}
 
-/* Indicateur de pagination (petits points) */
-.slot-dots{position:absolute;bottom:3px;right:6px;display:flex;gap:3px;}
-.slot-dot{width:4px;height:4px;border-radius:50%;background:#333;}
+.slot-dots{position:absolute;bottom:3px;right:5px;display:flex;gap:3px;}
+.slot-dot{width:4px;height:4px;border-radius:50%;background:#2a2a2a;}
 .slot-dot.active{background:var(--red);}
 
 /* ═══ CONTENU PRINCIPAL ═══ */
@@ -92,7 +94,6 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .h-tmp,.fc-hi{font-family:'Oswald',sans-serif;font-size:12px;color:#fff;}
 .fc-hi{color:#ff8a65;}.h-pct,.fc-lo{font-size:8px;color:#90caf9;}
 
-/* CIRCULATION */
 .traffic-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;animation:fadeUp .5s ease .2s forwards;opacity:0;flex-shrink:0;}
 .t-hdr{background:#1a2e1a;padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80;display:flex;align-items:center;gap:6px;}
 .t-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;}
@@ -133,7 +134,7 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .news-desc{font-size:11px;color:var(--muted);line-height:1.5;}
 .news-age{font-size:9px;color:#444;margin-top:3px;font-family:'Roboto Condensed',sans-serif;}
 
-/* COLONNE DROITE */
+/* DROITE */
 .right-col{display:flex;flex-direction:column;gap:6px;min-height:0;}
 .voyage-card{background:#000;border:1px solid rgba(232,197,71,.25);border-radius:10px;overflow:hidden;flex-shrink:0;animation:fadeUp .5s ease .3s forwards;opacity:0;}
 .v-hdr{background:rgba(232,197,71,.15);padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f0c040;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(232,197,71,.2);}
@@ -142,13 +143,14 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .v-slides img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.5s ease;filter:brightness(.65);}
 .v-slides img.active{opacity:1;}
 .v-overlay{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,.9));display:flex;align-items:flex-end;justify-content:space-between;}
-.v-name{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#f0c040;text-shadow:0 2px 6px rgba(0,0,0,.8);}
+.v-name{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#f0c040;}
 .v-date{font-size:9px;color:rgba(255,255,255,.65);}
 .v-cnt{text-align:right;}
-.v-days{font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;color:#f0c040;line-height:1;text-shadow:0 0 15px rgba(240,192,64,.5);}
+.v-days{font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;color:#f0c040;line-height:1;}
 .v-lbl{font-size:8px;color:rgba(255,255,255,.5);}
 .v-bar{height:2px;background:rgba(255,255,255,.08);}
 .v-fill{height:100%;background:linear-gradient(90deg,#f0c040,#ff9f40);}
+
 .cal-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;animation:fadeUp .5s ease .4s forwards;opacity:0;display:flex;flex-direction:column;}
 .c-hdr{background:#1c3a5e;padding:5px 10px;font-family:'Roboto Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#90caf9;display:flex;align-items:center;gap:6px;border-bottom:1px solid #1a3a6b;flex-shrink:0;}
 .c-dot{width:5px;height:5px;border-radius:50%;background:#90caf9;animation:blink 2s infinite;}
@@ -160,24 +162,19 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 .c-ev.soon{border-left-color:#4ade80;}
 .c-time{font-family:'Roboto Condensed',sans-serif;font-size:11px;color:var(--blue-light);min-width:32px;font-weight:700;flex-shrink:0;}
 .c-title{font-size:11px;color:var(--text);line-height:1.3;}
-.c-sub{font-size:9px;color:var(--muted);margin-top:1px;}
 .no-ev{text-align:center;color:var(--muted);font-size:11px;padding:12px 0;}
 .gcal-box{background:var(--surface2);border:1px dashed var(--border);border-radius:6px;padding:8px;text-align:center;margin-bottom:4px;}
 .gcal-box p{font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
 .gcal-btn{display:inline-flex;align-items:center;gap:5px;background:#4285f4;color:#fff;border:none;border-radius:5px;padding:5px 10px;font-size:10px;font-weight:500;cursor:pointer;font-family:'Roboto',sans-serif;}
 
-/* SKELETON */
 .skel{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:5px;margin-bottom:6px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-/* BOTTOM PADDING */
 .tv-bottom-pad{height:8px;flex-shrink:0;}
 </style>
 </head>
 <body>
 <div class="tv-wrapper">
 
-  <!-- HEADER -->
   <div class="tv-header">
     <div class="greeting">
       <h1 id="greeting-text">Bonjour, Jean-François !</h1>
@@ -186,18 +183,13 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
     <div class="clock"><span id="clk-h">00</span>:<span id="clk-m">00</span><span class="sec">:<span id="clk-s">00</span></span></div>
   </div>
 
-  <!-- SCORES BAR -->
   <div class="scores-bar">
     <div class="scores-label">⚡ SCORES</div>
-    <div class="scores-items" id="scores-items">
-      <!-- rempli par JS -->
-    </div>
+    <div class="scores-items" id="scores-items"></div>
   </div>
 
-  <!-- CONTENU PRINCIPAL -->
   <div class="tv-content">
 
-    <!-- GAUCHE : MÉTÉO + CIRCULATION -->
     <div class="meteo-col">
       <div class="meteo-card">
         <div class="m-hdr"><span class="m-dot"></span>MÉTÉO — PRÉVOST, QC</div>
@@ -215,7 +207,6 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
       </div>
     </div>
 
-    <!-- CENTRE : NOUVELLES -->
     <div class="news-col">
       <div class="news-card">
         <div class="news-hdr">
@@ -227,12 +218,11 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
           <div class="news-time-str" id="news-time"></div>
         </div>
         <div class="news-body" id="news-content">
-          <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">📰 Chargement des nouvelles...</div>
+          <div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">📰 Chargement...</div>
         </div>
       </div>
     </div>
 
-    <!-- DROITE : PORTUGAL + AGENDA -->
     <div class="right-col">
       <div class="voyage-card">
         <div class="v-hdr"><span class="v-dot"></span>✈️ PROCHAIN VOYAGE</div>
@@ -260,6 +250,71 @@ html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);fo
 
 <script>
 // ══════════════════════════════
+// LOGOS OFFICIELS DES ÉQUIPES
+// ══════════════════════════════
+const TEAM_LOGOS = {
+  // NHL
+  'MTL': 'https://a.espncdn.com/i/teamlogos/nhl/500/mtl.png',
+  'OTT': 'https://a.espncdn.com/i/teamlogos/nhl/500/ott.png',
+  'TOR': 'https://a.espncdn.com/i/teamlogos/nhl/500/tor.png',
+  'BOS': 'https://a.espncdn.com/i/teamlogos/nhl/500/bos.png',
+  'NYR': 'https://a.espncdn.com/i/teamlogos/nhl/500/nyr.png',
+  'DET': 'https://a.espncdn.com/i/teamlogos/nhl/500/det.png',
+  'TBL': 'https://a.espncdn.com/i/teamlogos/nhl/500/tb.png',
+  'FLA': 'https://a.espncdn.com/i/teamlogos/nhl/500/fla.png',
+  'CAR': 'https://a.espncdn.com/i/teamlogos/nhl/500/car.png',
+  'WSH': 'https://a.espncdn.com/i/teamlogos/nhl/500/wsh.png',
+  'PHI': 'https://a.espncdn.com/i/teamlogos/nhl/500/phi.png',
+  'PIT': 'https://a.espncdn.com/i/teamlogos/nhl/500/pit.png',
+  'CBJ': 'https://a.espncdn.com/i/teamlogos/nhl/500/cbj.png',
+  'NJD': 'https://a.espncdn.com/i/teamlogos/nhl/500/njd.png',
+  'NYI': 'https://a.espncdn.com/i/teamlogos/nhl/500/nyi.png',
+  'BUF': 'https://a.espncdn.com/i/teamlogos/nhl/500/buf.png',
+  'CHI': 'https://a.espncdn.com/i/teamlogos/nhl/500/chi.png',
+  'MIN': 'https://a.espncdn.com/i/teamlogos/nhl/500/min.png',
+  'STL': 'https://a.espncdn.com/i/teamlogos/nhl/500/stl.png',
+  'CGY': 'https://a.espncdn.com/i/teamlogos/nhl/500/cgy.png',
+  'EDM': 'https://a.espncdn.com/i/teamlogos/nhl/500/edm.png',
+  'VAN': 'https://a.espncdn.com/i/teamlogos/nhl/500/van.png',
+  'WPG': 'https://a.espncdn.com/i/teamlogos/nhl/500/wpg.png',
+  'ANA': 'https://a.espncdn.com/i/teamlogos/nhl/500/ana.png',
+  'LAK': 'https://a.espncdn.com/i/teamlogos/nhl/500/la.png',
+  'SJS': 'https://a.espncdn.com/i/teamlogos/nhl/500/sjs.png',
+  'NSH': 'https://a.espncdn.com/i/teamlogos/nhl/500/nsh.png',
+  'DAL': 'https://a.espncdn.com/i/teamlogos/nhl/500/dal.png',
+  'COL': 'https://a.espncdn.com/i/teamlogos/nhl/500/col.png',
+  'ARI': 'https://a.espncdn.com/i/teamlogos/nhl/500/ari.png',
+  'SEA': 'https://a.espncdn.com/i/teamlogos/nhl/500/sea.png',
+  'VGK': 'https://a.espncdn.com/i/teamlogos/nhl/500/vgk.png',
+  // NBA
+  'TOR-NBA': 'https://a.espncdn.com/i/teamlogos/nba/500/tor.png',
+  'BOS-NBA': 'https://a.espncdn.com/i/teamlogos/nba/500/bos.png',
+  'CHI-NBA': 'https://a.espncdn.com/i/teamlogos/nba/500/chi.png',
+  'MIA': 'https://a.espncdn.com/i/teamlogos/nba/500/mia.png',
+  'NYK': 'https://a.espncdn.com/i/teamlogos/nba/500/ny.png',
+  'MIL': 'https://a.espncdn.com/i/teamlogos/nba/500/mil.png',
+  // NFL
+  'BUF-NFL': 'https://a.espncdn.com/i/teamlogos/nfl/500/buf.png',
+  'KC':  'https://a.espncdn.com/i/teamlogos/nfl/500/kc.png',
+  'NE':  'https://a.espncdn.com/i/teamlogos/nfl/500/ne.png',
+  'PIT-NFL': 'https://a.espncdn.com/i/teamlogos/nfl/500/pit.png',
+  // MLB
+  'TOR-MLB': 'https://a.espncdn.com/i/teamlogos/mlb/500/tor.png',
+  'NYY': 'https://a.espncdn.com/i/teamlogos/mlb/500/nyy.png',
+  'BOS-MLB': 'https://a.espncdn.com/i/teamlogos/mlb/500/bos.png',
+  // CFL — logos personnalisés
+  'ALS': 'https://upload.wikimedia.org/wikipedia/fr/thumb/3/3e/Alouettes_de_Montr%C3%A9al_%28logo%29.svg/200px-Alouettes_de_Montr%C3%A9al_%28logo%29.svg.png',
+  'EDM-CFL': 'https://upload.wikimedia.org/wikipedia/en/thumb/5/57/Edmonton_Elks_logo.svg/200px-Edmonton_Elks_logo.svg.png',
+  'CGY-CFL': 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5c/Calgary_Stampeders_logo.svg/200px-Calgary_Stampeders_logo.svg.png',
+};
+
+function getLogo(abbrev, fallbackEmoji){
+  const src = TEAM_LOGOS[abbrev];
+  if(src) return `<img class="ss-logo" src="${src}" alt="${abbrev}" onerror="this.style.display='none';this.nextSibling.style.display='inline'"><span style="display:none;font-size:22px;">${fallbackEmoji}</span>`;
+  return `<span style="font-size:22px;">${fallbackEmoji}</span>`;
+}
+
+// ══════════════════════════════
 // HORLOGE
 // ══════════════════════════════
 const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
@@ -277,124 +332,87 @@ function updateClock(){
 setInterval(updateClock,1000);updateClock();
 
 // ══════════════════════════════
-// VOYAGE & DIAPORAMA
+// VOYAGE
 // ══════════════════════════════
 function updateVoyage(){
   const dep=new Date('2026-06-19'),deb=new Date('2025-09-01'),now=new Date();
   const diff=Math.ceil((dep-now)/86400000);
-  const pct=Math.min(100,Math.max(0,((now-deb)/(dep-deb))*100)).toFixed(0);
-  document.getElementById('v-fill').style.width=pct+'%';
+  document.getElementById('v-fill').style.width=Math.min(100,Math.max(0,((now-deb)/(dep-deb))*100)).toFixed(0)+'%';
   return diff;
 }
 (function initSlides(){
-  const photos=[
-    'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80',
-    'https://images.unsplash.com/photo-1513735492246-483525079686?w=800&q=80',
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
-    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80',
-    'https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?w=800&q=80',
-  ];
+  const photos=['https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80','https://images.unsplash.com/photo-1513735492246-483525079686?w=800&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80','https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80','https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?w=800&q=80'];
   const container=document.getElementById('v-slides');
   const days=updateVoyage();
-  photos.forEach((src,i)=>{
-    const img=document.createElement('img');
-    img.src=src;img.alt='Portugal';
-    if(i===0)img.classList.add('active');
-    container.appendChild(img);
-  });
-  const ov=document.createElement('div');
-  ov.className='v-overlay';
+  photos.forEach((src,i)=>{const img=document.createElement('img');img.src=src;img.alt='Portugal';if(i===0)img.classList.add('active');container.appendChild(img);});
+  const ov=document.createElement('div');ov.className='v-overlay';
   ov.innerHTML=`<div><div class="v-name">🇵🇹 Portugal</div><div class="v-date">Départ 19 juin 2026</div></div><div class="v-cnt"><div class="v-days">${days>0?days:'✈️'}</div><div class="v-lbl">JOURS</div></div>`;
   container.appendChild(ov);
-  let cur=0;
-  setInterval(()=>{
-    const imgs=container.querySelectorAll('img');
-    imgs[cur].classList.remove('active');
-    cur=(cur+1)%imgs.length;
-    imgs[cur].classList.add('active');
-  },5000);
+  let cur=0;setInterval(()=>{const imgs=container.querySelectorAll('img');imgs[cur].classList.remove('active');cur=(cur+1)%imgs.length;imgs[cur].classList.add('active');},5000);
 })();
 
 // ══════════════════════════════
-// SCORES — alternance automatique
-// Chaque équipe a 3 états : avant-dernier, dernier, prochain
+// SCORES — structure avec logos
 // ══════════════════════════════
-
-// Structure des données par équipe
-// states = [{tag, tagClass, vs, score, scoreClass, meta}, ...]
-const teamSlots = [
-  {
-    id:'mtl', sport:'NHL 🏒',
-    states:[] // rempli par ESPN
-  },
-  {
-    id:'tor-nba', sport:'NBA 🏀',
-    states:[]
-  },
-  {
-    id:'buf', sport:'NFL 🏈',
-    states:[
-      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Pittsburgh',score:'28–14',sc:'win',meta:'5 jan'},
-      {tag:'DERNIER',tc:'tag-last1',vs:'vs Kansas City',score:'32–29',sc:'loss',meta:'19 jan'},
-      {tag:'PROCHAIN',tc:'tag-next',vs:'Pré-saison',score:'Été 2026',sc:'next',meta:'À conf.'},
-    ]
-  },
-  {
-    id:'tor-mlb', sport:'MLB ⚾',
-    states:[
-      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Red Sox',score:'5–3',sc:'win',meta:'1 oct'},
-      {tag:'DERNIER',tc:'tag-last1',vs:'vs Yankees',score:'4–6',sc:'loss',meta:'3 oct'},
-      {tag:'PROCHAIN',tc:'tag-next',vs:'Opening Day',score:'28 mar',sc:'next',meta:'2026'},
-    ]
-  },
-  {
-    id:'als', sport:'CFL 🏈',
-    states:[
-      {tag:'AVANT-DERNIER',tc:'tag-last2',vs:'vs Stampeders',score:'27–20',sc:'win',meta:'3 nov'},
-      {tag:'DERNIER',tc:'tag-last1',vs:'vs Elks',score:'30–21',sc:'win',meta:'10 nov'},
-      {tag:'PROCHAIN',tc:'tag-next',vs:'Saison régulière',score:'Juin 2026',sc:'next',meta:''},
-    ]
-  },
+const teamSlots=[
+  {id:'mtl',   sport:'NHL',  myLogo:'MTL',  myEmoji:'🏒', states:[]},
+  {id:'tor-nba',sport:'NBA', myLogo:'TOR-NBA', myEmoji:'🏀', states:[]},
+  {id:'buf',   sport:'NFL',  myLogo:'BUF-NFL', myEmoji:'🏈', states:[
+    {tag:'AVANT-DERNIER',tc:'tag-last2',oppLogo:'PIT-NFL',oppEmoji:'🏈',vs:'vs Pittsburgh',score:'28–14',sc:'win',meta:'5 jan'},
+    {tag:'DERNIER',tc:'tag-last1',oppLogo:'KC',oppEmoji:'🏈',vs:'vs Kansas City',score:'32–29',sc:'loss',meta:'19 jan'},
+    {tag:'PROCHAIN',tc:'tag-next',oppLogo:'',oppEmoji:'🏈',vs:'Pré-saison 2026',score:'Été',sc:'next',meta:''},
+  ]},
+  {id:'tor-mlb',sport:'MLB', myLogo:'TOR-MLB',myEmoji:'⚾', states:[
+    {tag:'AVANT-DERNIER',tc:'tag-last2',oppLogo:'BOS-MLB',oppEmoji:'⚾',vs:'vs Red Sox',score:'5–3',sc:'win',meta:'1 oct'},
+    {tag:'DERNIER',tc:'tag-last1',oppLogo:'NYY',oppEmoji:'⚾',vs:'vs Yankees',score:'4–6',sc:'loss',meta:'3 oct'},
+    {tag:'PROCHAIN',tc:'tag-next',oppLogo:'',oppEmoji:'⚾',vs:'Opening Day',score:'28 mar',sc:'next',meta:'2026'},
+  ]},
+  {id:'als',   sport:'CFL',  myLogo:'ALS',  myEmoji:'🏈', states:[
+    {tag:'AVANT-DERNIER',tc:'tag-last2',oppLogo:'CGY-CFL',oppEmoji:'🏈',vs:'vs Stampeders',score:'27–20',sc:'win',meta:'3 nov'},
+    {tag:'DERNIER',tc:'tag-last1',oppLogo:'EDM-CFL',oppEmoji:'🏈',vs:'vs Elks',score:'30–21',sc:'win',meta:'10 nov'},
+    {tag:'PROCHAIN',tc:'tag-next',oppLogo:'',oppEmoji:'🏈',vs:'Saison régulière',score:'Juin 2026',sc:'next',meta:''},
+  ]},
 ];
 
-// Index courant par slot (0=avant-dernier, 1=dernier, 2=prochain)
-const slotCurrentIndex = {};
+const slotIdx={};
+
+function renderState(team, stateIdx){
+  const s=team.states[stateIdx];
+  if(!s)return'';
+  return`
+    ${getLogo(team.myLogo, team.myEmoji)}
+    <div class="ss-info">
+      <div class="ss-top">
+        <span class="ss-tag ${s.tc}">${s.tag}</span>
+        <span class="ss-vs">${s.vs}</span>
+      </div>
+      <div class="ss-bottom">
+        <span class="ss-score ${s.sc}">${s.score}</span>
+        <span class="ss-meta">${s.meta}</span>
+        ${s.oppLogo?getLogo(s.oppLogo,s.oppEmoji):''}
+      </div>
+    </div>`;
+}
 
 function buildScoresBar(){
   const container=document.getElementById('scores-items');
   container.innerHTML='';
   teamSlots.forEach((team,ti)=>{
-    slotCurrentIndex[team.id]=1; // commence sur "DERNIER"
+    slotIdx[team.id]=1;
     const slot=document.createElement('div');
     slot.className='score-slot';
     slot.id=`slot-${team.id}`;
-    // Crée les 3 états
-    const states=team.states.length>0?team.states:[
-      {tag:'...',tc:'tag-last2',vs:'Chargement',score:'',sc:'next',meta:''},
-      {tag:'...',tc:'tag-last1',vs:'Chargement',score:'',sc:'next',meta:''},
-      {tag:'...',tc:'tag-next',vs:'Chargement',score:'',sc:'next',meta:''},
-    ];
-    states.forEach((s,si)=>{
+    // 3 états
+    for(let si=0;si<3;si++){
       const div=document.createElement('div');
       div.className='slot-state'+(si===1?' visible':'');
       div.id=`state-${team.id}-${si}`;
-      div.innerHTML=`
-        <span class="ss-sport">${team.sport}</span>
-        <span class="ss-tag ${s.tc}">${s.tag}</span>
-        <span class="ss-vs">${s.vs}</span>
-        <span class="ss-score ${s.sc}">${s.score}</span>
-        <span class="ss-meta">${s.meta}</span>`;
+      div.innerHTML=renderState(team,si);
       slot.appendChild(div);
-    });
-    // Points indicateurs
-    const dots=document.createElement('div');
-    dots.className='slot-dots';
-    dots.id=`dots-${team.id}`;
-    [0,1,2].forEach(i=>{
-      const d=document.createElement('div');
-      d.className='slot-dot'+(i===1?' active':'');
-      dots.appendChild(d);
-    });
+    }
+    // Points
+    const dots=document.createElement('div');dots.className='slot-dots';dots.id=`dots-${team.id}`;
+    for(let i=0;i<3;i++){const d=document.createElement('div');d.className='slot-dot'+(i===1?' active':'');dots.appendChild(d);}
     slot.appendChild(dots);
     container.appendChild(slot);
   });
@@ -402,127 +420,84 @@ function buildScoresBar(){
 
 function rotateSlot(teamId){
   const team=teamSlots.find(t=>t.id===teamId);
-  if(!team||team.states.length===0)return;
-  const cur=slotCurrentIndex[teamId];
+  if(!team||team.states.length<3)return;
+  const cur=slotIdx[teamId];
   const next=(cur+1)%3;
-  // Cache l'actuel
-  const curEl=document.getElementById(`state-${teamId}-${cur}`);
-  const nextEl=document.getElementById(`state-${teamId}-${next}`);
-  if(!curEl||!nextEl)return;
-  curEl.classList.remove('visible');
-  nextEl.classList.add('visible');
-  // Mise à jour des points
-  const dots=document.getElementById(`dots-${teamId}`)?.querySelectorAll('.slot-dot');
-  if(dots){dots.forEach((d,i)=>d.classList.toggle('active',i===next));}
-  slotCurrentIndex[teamId]=next;
+  document.getElementById(`state-${teamId}-${cur}`)?.classList.remove('visible');
+  document.getElementById(`state-${teamId}-${next}`)?.classList.add('visible');
+  document.getElementById(`dots-${teamId}`)?.querySelectorAll('.slot-dot').forEach((d,i)=>d.classList.toggle('active',i===next));
+  slotIdx[teamId]=next;
 }
 
-function updateSlotStates(teamId, states){
+function updateSlotStates(teamId,states){
   const team=teamSlots.find(t=>t.id===teamId);
   if(!team)return;
   team.states=states;
-  // Reconstruire les états dans le DOM
-  states.forEach((s,si)=>{
+  for(let si=0;si<3;si++){
     const el=document.getElementById(`state-${teamId}-${si}`);
-    if(el){
-      el.innerHTML=`
-        <span class="ss-sport">${team.sport}</span>
-        <span class="ss-tag ${s.tc}">${s.tag}</span>
-        <span class="ss-vs">${s.vs}</span>
-        <span class="ss-score ${s.sc}">${s.score}</span>
-        <span class="ss-meta">${s.meta}</span>`;
-    }
-  });
+    if(el)el.innerHTML=renderState(team,si);
+  }
 }
 
-// Rotation automatique — chaque équipe alterne toutes les 4 secondes
-// Chaque équipe commence à un moment différent pour éviter que tout tourne en même temps
 function startRotations(){
   teamSlots.forEach((team,i)=>{
-    setTimeout(()=>{
-      setInterval(()=>rotateSlot(team.id), 4000);
-    }, i*800); // décalage de 800ms entre chaque équipe
+    setTimeout(()=>setInterval(()=>rotateSlot(team.id),4000),i*850);
   });
 }
 
 // ══════════════════════════════
-// ESPN API — Canadiens & Raptors
+// ESPN API
 // ══════════════════════════════
-async function fetchESPN(url){
-  try{const r=await fetch(url);return await r.json();}catch(e){return null;}
-}
+async function fetchESPN(url){try{return await(await fetch(url)).json();}catch(e){return null;}}
 
-function parseTeamGames(events, abbrev, now){
+function parseGames(events,abbrev,now){
   const past=events.filter(e=>e.competitions?.[0]?.status?.type?.completed);
   const upcoming=events.filter(e=>!e.competitions?.[0]?.status?.type?.completed&&new Date(e.date)>=now);
   const live=events.find(e=>e.competitions?.[0]?.status?.type?.state==='in');
-
-  const parseGame=(event)=>{
-    if(!event)return null;
-    const comp=event.competitions[0];
+  const parse=(ev)=>{
+    if(!ev)return null;
+    const comp=ev.competitions[0];
     const home=comp.competitors.find(c=>c.homeAway==='home');
     const away=comp.competitors.find(c=>c.homeAway==='away');
     const isHome=home?.team?.abbreviation===abbrev;
-    const myScore=parseInt(isHome?home.score:away.score)||0;
-    const oppScore=parseInt(isHome?away.score:home.score)||0;
-    const opp=isHome?away.team.abbreviation:home.team.abbreviation;
-    const won=myScore>oppScore;
-    const dt=new Date(event.date);
-    return{opp,myScore,oppScore,won,dt};
+    const myS=parseInt(isHome?home.score:away.score)||0;
+    const opS=parseInt(isHome?away.score:home.score)||0;
+    const opp=isHome?away:home;
+    return{opp:opp?.team?.abbreviation||'',oppFull:opp?.team?.displayName||'',myS,opS,won:myS>opS,dt:new Date(ev.date)};
   };
+  const r={live:null,last2:null,last1:null,next:null};
+  if(live){const g=parse(live);if(g)r.live=g;}
+  if(past.length>=2){r.last2=parse(past[past.length-2]);}
+  if(past.length>=1){r.last1=parse(past[past.length-1]);}
+  if(upcoming.length>=1){r.next=parse(upcoming[0]);}
+  return r;
+}
 
-  const results={live:null,last2:null,last1:null,next:null};
-  if(live){
-    const g=parseGame(live);
-    if(g)results.live={tag:'EN DIRECT',tc:'tag-live',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:'',meta:'LIVE'};
-  }
-  if(past.length>=2){
-    const g=parseGame(past[past.length-2]);
-    if(g)results.last2={tag:'AVANT-DERNIER',tc:'tag-last2',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:g.won?'win':'loss',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})};
-  }
-  if(past.length>=1){
-    const g=parseGame(past[past.length-1]);
-    if(g)results.last1={tag:'DERNIER',tc:'tag-last1',vs:`vs ${g.opp}`,score:`${g.myScore}–${g.oppScore}`,sc:g.won?'win':'loss',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'})};
-  }
-  if(upcoming.length>=1){
-    const g=parseGame(upcoming[0]);
-    if(g){
-      const timeStr=g.dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'});
-      results.next={tag:'PROCHAIN',tc:'tag-next',vs:`vs ${g.opp}`,score:timeStr,sc:'next',meta:g.dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric',weekday:'short'})};
-    }
-  }
-  return results;
+function makeStates(r,league){
+  const fmtDate=(dt)=>dt.toLocaleDateString('fr-CA',{month:'short',day:'numeric'});
+  const fmtTime=(dt)=>dt.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'});
+  const logoKey=(abbrev)=>league==='NBA'?`${abbrev}-NBA`:league==='NFL'?`${abbrev}-NFL`:league==='MLB'?`${abbrev}-MLB`:abbrev;
+
+  const s0=r.last2?{tag:'AVANT-DERNIER',tc:'tag-last2',oppLogo:logoKey(r.last2.opp),oppEmoji:'',vs:`vs ${r.last2.oppFull||r.last2.opp}`,score:`${r.last2.myS}–${r.last2.opS}`,sc:r.last2.won?'win':'loss',meta:fmtDate(r.last2.dt)}
+    :{tag:'AVANT-DERNIER',tc:'tag-last2',oppLogo:'',oppEmoji:'',vs:'Données à venir',score:'—',sc:'',meta:''};
+  const src=r.live||r.last1;
+  const s1=src?{tag:r.live?'EN DIRECT':'DERNIER',tc:r.live?'tag-live':'tag-last1',oppLogo:logoKey(src.opp),oppEmoji:'',vs:`vs ${src.oppFull||src.opp}`,score:`${src.myS}–${src.opS}`,sc:src.won?'win':'loss',meta:r.live?'LIVE':fmtDate(src.dt)}
+    :{tag:'DERNIER',tc:'tag-last1',oppLogo:'',oppEmoji:'',vs:'Données à venir',score:'—',sc:'',meta:''};
+  const s2=r.next?{tag:'PROCHAIN',tc:'tag-next',oppLogo:logoKey(r.next.opp),oppEmoji:'',vs:`vs ${r.next.oppFull||r.next.opp}`,score:fmtTime(r.next.dt),sc:'next',meta:fmtDate(r.next.dt)}
+    :{tag:'PROCHAIN',tc:'tag-next',oppLogo:'',oppEmoji:'',vs:'À confirmer',score:'',sc:'next',meta:''};
+  return[s0,s1,s2];
 }
 
 async function loadScores(){
-  // Canadiens
+  // Canadiens NHL
   try{
     const d=await fetchESPN('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/mtl/schedule?season=2025');
-    if(d?.events){
-      const now=new Date();
-      const r=parseTeamGames(d.events,'MTL',now);
-      const states=[
-        r.last2||{tag:'AVANT-DERNIER',tc:'tag-last2',vs:'MTL',score:'—',sc:'',meta:''},
-        r.live||r.last1||{tag:'DERNIER',tc:'tag-last1',vs:'MTL',score:'—',sc:'',meta:''},
-        r.next||{tag:'PROCHAIN',tc:'tag-next',vs:'À confirmer',score:'',sc:'next',meta:''},
-      ];
-      updateSlotStates('mtl',states);
-    }
+    if(d?.events){updateSlotStates('mtl',makeStates(parseGames(d.events,'MTL',new Date()),'NHL'));}
   }catch(e){}
-
-  // Raptors
+  // Raptors NBA
   try{
     const d=await fetchESPN('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/tor/schedule?season=2025');
-    if(d?.events){
-      const now=new Date();
-      const r=parseTeamGames(d.events,'TOR',now);
-      const states=[
-        r.last2||{tag:'AVANT-DERNIER',tc:'tag-last2',vs:'TOR',score:'—',sc:'',meta:''},
-        r.live||r.last1||{tag:'DERNIER',tc:'tag-last1',vs:'TOR',score:'—',sc:'',meta:''},
-        r.next||{tag:'PROCHAIN',tc:'tag-next',vs:'À confirmer',score:'',sc:'next',meta:''},
-      ];
-      updateSlotStates('tor-nba',states);
-    }
+    if(d?.events){updateSlotStates('tor-nba',makeStates(parseGames(d.events,'TOR',new Date()),'NBA'));}
   }catch(e){}
 }
 
@@ -541,15 +516,12 @@ async function loadMeteo(){
     const h5=[];for(let i=1;i<=5;i++){const idx=nowH+i;if(idx<hourly.time.length)h5.push({time:`${String(new Date(hourly.time[idx]).getHours()).padStart(2,'0')}h`,icon:WI[hourly.weather_code[idx]]||'🌡️',temp:Math.round(hourly.temperature_2m[idx]),pct:hourly.precipitation_probability[idx]});}
     const fc5=[];for(let i=1;i<=5;i++){const dt=new Date(daily.time[i]);fc5.push({name:['Di','Lu','Ma','Me','Je','Ve','Sa'][dt.getDay()],icon:WI[daily.weather_code[i]]||'🌡️',hi:Math.round(daily.temperature_2m_max[i]),lo:Math.round(daily.temperature_2m_min[i])});}
     document.getElementById('meteo-content').innerHTML=`
-      <div class="m-now">
-        <div class="m-icon">${icon}</div>
-        <div>
-          <div class="m-temp">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
-          <div class="m-desc">${desc}</div>
-          <div class="m-feels">Ressenti ${Math.round(c.apparent_temperature)}°C</div>
-          <div class="m-mm"><span class="m-hi">↑${Math.round(daily.temperature_2m_max[0])}°</span> <span class="m-lo">↓${Math.round(daily.temperature_2m_min[0])}°</span></div>
-        </div>
-      </div>
+      <div class="m-now"><div class="m-icon">${icon}</div><div>
+        <div class="m-temp">${Math.round(c.temperature_2m)}<sup>°C</sup></div>
+        <div class="m-desc">${desc}</div>
+        <div class="m-feels">Ressenti ${Math.round(c.apparent_temperature)}°C</div>
+        <div class="m-mm"><span class="m-hi">↑${Math.round(daily.temperature_2m_max[0])}°</span> <span class="m-lo">↓${Math.round(daily.temperature_2m_min[0])}°</span></div>
+      </div></div>
       <div class="m-stats">
         <div class="m-stat"><div class="m-slabel">Vent</div><div class="m-sval">${Math.round(c.wind_speed_10m)}<span class="m-sunit"> km/h</span></div></div>
         <div class="m-stat"><div class="m-slabel">Humidité</div><div class="m-sval">${c.relative_humidity_2m}<span class="m-sunit">%</span></div></div>
@@ -565,16 +537,16 @@ async function loadMeteo(){
 loadMeteo();
 
 // ══════════════════════════════
-// NOUVELLES RSS
+// NOUVELLES
 // ══════════════════════════════
-const NEWS_FEEDS=[
-  {url:'https://www.lapresse.ca/actualites/rss',label:'QUÉBEC',cat:'cat-qc'},
-  {url:'https://ici.radio-canada.ca/rss/4159',label:'CANADA',cat:'cat-can'},
-  {url:'https://ici.radio-canada.ca/rss/4148',label:'MONDE',cat:'cat-monde'},
-];
 async function loadNews(){
-  const allItems=[];
-  for(const feed of NEWS_FEEDS){
+  const feeds=[
+    {url:'https://www.lapresse.ca/actualites/rss',label:'QUÉBEC',cat:'cat-qc'},
+    {url:'https://ici.radio-canada.ca/rss/4159',label:'CANADA',cat:'cat-can'},
+    {url:'https://ici.radio-canada.ca/rss/4148',label:'MONDE',cat:'cat-monde'},
+  ];
+  const items=[];
+  for(const feed of feeds){
     try{
       const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`);
       const data=await r.json();
@@ -583,35 +555,27 @@ async function loadNews(){
         if(i>=4)return;
         const title=item.querySelector('title')?.textContent||'';
         const desc=item.querySelector('description')?.textContent?.replace(/<[^>]+>/g,'').substring(0,120)||'';
-        const pubDate=item.querySelector('pubDate')?.textContent||'';
-        const age=pubDate?getAge(new Date(pubDate)):'';
-        allItems.push({title,desc,age,label:feed.label,cat:feed.cat});
+        const pub=item.querySelector('pubDate')?.textContent||'';
+        const age=pub?getAge(new Date(pub)):'';
+        items.push({title,desc,age,label:feed.label,cat:feed.cat});
       });
     }catch(e){}
   }
-  const items=allItems.length>0?allItems:getDemoNews();
-  document.getElementById('news-content').innerHTML=items.map(n=>`
+  const final=items.length>0?items:demoNews();
+  document.getElementById('news-content').innerHTML=final.map(n=>`
     <div class="news-item">
       <span class="news-cat ${n.cat}">${n.label}</span>
-      <div>
-        <div class="news-title">${n.title}</div>
-        ${n.desc?`<div class="news-desc">${n.desc}...</div>`:''}
-        <div class="news-age">${n.age}</div>
-      </div>
+      <div><div class="news-title">${n.title}</div>${n.desc?`<div class="news-desc">${n.desc}...</div>`:''}<div class="news-age">${n.age}</div></div>
     </div>`).join('');
 }
-function getAge(date){
-  const diff=Math.floor((new Date()-date)/60000);
-  if(diff<1)return'À l\'instant';if(diff<60)return`Il y a ${diff} min`;
-  if(diff<1440)return`Il y a ${Math.floor(diff/60)}h`;return`Il y a ${Math.floor(diff/1440)}j`;
-}
-function getDemoNews(){return[
+function getAge(d){const m=Math.floor((new Date()-d)/60000);if(m<1)return'À l\'instant';if(m<60)return`Il y a ${m} min`;if(m<1440)return`Il y a ${Math.floor(m/60)}h`;return`Il y a ${Math.floor(m/1440)}j`;}
+function demoNews(){return[
   {title:'Tempête hivernale : plus de 10 000 foyers sans électricité dans les Laurentides',desc:'Hydro-Québec mobilise ses équipes. Conditions routières difficiles sur l\'A-15.',age:'Il y a 12 min',label:'QUÉBEC',cat:'cat-qc'},
-  {title:'Budget fédéral 2026 : nouvelles mesures pour les familles canadiennes',desc:'Le gouvernement annonce des allégements fiscaux et des investissements dans les garderies.',age:'Il y a 34 min',label:'CANADA',cat:'cat-can'},
+  {title:'Budget fédéral 2026 : nouvelles mesures pour les familles canadiennes',desc:'Le gouvernement annonce des allégements fiscaux et des investissements.',age:'Il y a 34 min',label:'CANADA',cat:'cat-can'},
   {title:'Crise au Moyen-Orient : nouvelles négociations en cours',desc:'Les diplomates tentent de relancer les pourparlers de paix cette semaine.',age:'Il y a 1h',label:'MONDE',cat:'cat-monde'},
-  {title:'Canadiens : Cole Caufield signe une prolongation de contrat record',desc:'La superstar du CH s\'engage pour les 8 prochaines saisons avec Montréal.',age:'Il y a 2h',label:'QUÉBEC',cat:'cat-qc'},
-  {title:'Économie : l\'inflation ralentit à 2,1% au Canada en février 2026',desc:'Statistique Canada rapporte un recul encourageant selon les économistes.',age:'Il y a 3h',label:'CANADA',cat:'cat-can'},
-  {title:'Météo : redoux prévu pour la fin de semaine dans les Laurentides',desc:'Les températures pourraient atteindre -2°C samedi avant un retour du froid.',age:'Il y a 4h',label:'QUÉBEC',cat:'cat-qc'},
+  {title:'Canadiens : Cole Caufield signe une prolongation record',desc:'La superstar du CH s\'engage pour les 8 prochaines saisons.',age:'Il y a 2h',label:'QUÉBEC',cat:'cat-qc'},
+  {title:'Économie : l\'inflation ralentit à 2,1% au Canada en février 2026',desc:'Statistique Canada rapporte un recul encourageant.',age:'Il y a 3h',label:'CANADA',cat:'cat-can'},
+  {title:'Météo : redoux prévu pour la fin de semaine dans les Laurentides',desc:'Les températures pourraient atteindre -2°C samedi.',age:'Il y a 4h',label:'QUÉBEC',cat:'cat-qc'},
 ];}
 loadNews();
 
@@ -652,42 +616,30 @@ function showDemoEvents(){
     ?'<div class="no-ev">✅ Aucun événement restant</div>'
     :events.map(e=>`<div class="c-ev ${e.type}"><span class="c-time">${e.time}</span><div class="c-title">${e.title}</div></div>`).join('');
 }
-(function(){
-  if(window.location.hash.includes('access_token')){
-    const token=window.location.hash.match(/access_token=([^&]+)/)?.[1];
-    if(token){window.location.hash='';loadGCal(token);}
-  }
-})();
+(function(){if(window.location.hash.includes('access_token')){const t=window.location.hash.match(/access_token=([^&]+)/)?.[1];if(t){window.location.hash='';loadGCal(t);}}})();
 async function loadGCal(token){
   try{
-    const today=new Date();today.setHours(0,0,0,0);
-    const tom=new Date(today);tom.setDate(tom.getDate()+1);
+    const today=new Date();today.setHours(0,0,0,0);const tom=new Date(today);tom.setDate(tom.getDate()+1);
     const r=await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${today.toISOString()}&timeMax=${tom.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=8`,{headers:{Authorization:`Bearer ${token}`}});
-    if(!r.ok)return;
-    const data=await r.json();
+    if(!r.ok)return;const data=await r.json();
     document.getElementById('gcal-box').style.display='none';
     const evs=data.items||[];
     if(!evs.length){document.getElementById('events-list').innerHTML='<div class="no-ev">✅ Aucun événement aujourd\'hui</div>';return;}
-    document.getElementById('events-list').innerHTML=evs.map(e=>{
-      const start=e.start?.dateTime?new Date(e.start.dateTime):null;
-      const t=start?start.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}):'Toute la journée';
-      return`<div class="c-ev"><span class="c-time">${t}</span><div><div class="c-title">${e.summary||'Événement'}</div>${e.location?`<div class="c-sub">📍 ${e.location}</div>`:''}</div></div>`;
-    }).join('');
+    document.getElementById('events-list').innerHTML=evs.map(e=>{const start=e.start?.dateTime?new Date(e.start.dateTime):null;const t=start?start.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}):'Toute la journée';return`<div class="c-ev"><span class="c-time">${t}</span><div class="c-title">${e.summary||'Événement'}</div></div>`;}).join('');
   }catch(e){}
 }
 
 // ══════════════════════════════
-// INIT & REFRESH AUTO
+// INIT
 // ══════════════════════════════
 buildScoresBar();
 loadScores();
 startRotations();
-
-setInterval(loadTraffic,   3*60*1000);
-setInterval(loadScores,    5*60*1000);
-setInterval(loadNews,     15*60*1000);
-setInterval(loadMeteo,    30*60*1000);
-setInterval(updateVoyage, 60*60*1000);
+setInterval(loadTraffic,  3*60*1000);
+setInterval(loadScores,   5*60*1000);
+setInterval(loadNews,    15*60*1000);
+setInterval(loadMeteo,   30*60*1000);
+setInterval(updateVoyage,60*60*1000);
 </script>
 </body>
 </html>
